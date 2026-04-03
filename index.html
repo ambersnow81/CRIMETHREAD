@@ -25,13 +25,11 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .screen{display:none;min-height:100vh;padding-bottom:72px;}
 .screen.active{display:block;}
 
-/* NAV */
 .bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--surface);border-top:0.5px solid var(--border);display:flex;z-index:100;}
 .nbtn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 0 11px;font-size:9px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;border:none;background:transparent;gap:3px;transition:color 0.15s;}
 .nbtn.active{color:var(--red);}
 .nico{font-size:17px;line-height:1;}
 
-/* TOPBAR */
 .topbar{background:var(--surface);border-bottom:0.5px solid var(--border);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
 .logo{font-family:var(--fft);font-size:22px;color:var(--text);letter-spacing:1px;display:flex;align-items:center;gap:7px;}
 .logo-dash{width:16px;height:2px;background:var(--red);border-radius:1px;display:inline-block;}
@@ -39,14 +37,12 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .tright{display:flex;gap:8px;}
 .ibtn{width:32px;height:32px;border-radius:50%;border:0.5px solid var(--border2);background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:14px;}
 
-/* UTILITIES */
 .slabel{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;padding:13px 16px 6px;}
 .filter-row{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;scrollbar-width:none;border-bottom:0.5px solid var(--border);}
 .filter-row::-webkit-scrollbar{display:none;}
 .chip{flex-shrink:0;font-size:11px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border2);color:var(--text2);background:transparent;white-space:nowrap;letter-spacing:0.04em;transition:all 0.15s;}
 .chip.active{background:var(--red);color:#f0ece0;border-color:var(--red);}
 
-/* CASES */
 .case-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px 16px 16px;}
 .case-card{border-radius:4px;border:0.5px solid var(--border2);overflow:hidden;background:var(--surface);cursor:pointer;transition:border-color 0.15s;}
 .case-card:active{border-color:var(--red);}
@@ -60,7 +56,6 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .b-solved{background:#1a2f1a;color:#60a060;}
 .bcnt{font-size:10px;color:var(--text3);}
 
-/* FORMS */
 .fwrap{padding:16px;}
 .flbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:7px;display:block;}
 .finput{width:100%;padding:10px 12px;border:0.5px solid var(--border2);border-radius:4px;font-size:13px;background:var(--surface);color:var(--text);margin-bottom:14px;}
@@ -68,9 +63,7 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .btnp{width:100%;padding:12px;background:var(--red);color:#f0ece0;border:none;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-top:8px;transition:background 0.15s;}
 .btnp:hover{background:var(--red2);}
 .btno{width:100%;padding:11px;background:transparent;color:var(--text2);border:0.5px solid var(--border2);border-radius:4px;font-size:13px;letter-spacing:0.04em;margin-top:8px;transition:all 0.15s;}
-.btno:hover{border-color:var(--border);color:var(--text);}
 
-/* AUTH */
 .auth-wrap{padding:40px 24px 24px;}
 .auth-logo{font-family:var(--fft);font-size:34px;color:var(--text);text-align:center;margin-bottom:6px;letter-spacing:1px;}
 .auth-logo em{color:var(--red);font-style:normal;}
@@ -88,7 +81,6 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .loading-spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(240,236,224,0.3);border-top-color:#f0ece0;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* PROFILE */
 .prof-hdr{padding:28px 16px 20px;text-align:center;border-bottom:0.5px solid var(--border);}
 .avatar{width:68px;height:68px;border-radius:50%;background:var(--red-dim);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;}
 .prof-name{font-size:18px;font-family:var(--fft);color:var(--text);letter-spacing:1px;}
@@ -102,7 +94,6 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .menu-lbl{font-size:13px;color:var(--text);flex:1;}
 .menu-arr{font-size:16px;color:var(--text3);}
 
-/* DETAIL */
 .dheader{padding:12px 16px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface);position:sticky;top:0;z-index:50;}
 .back{font-size:22px;color:var(--text2);background:none;border:none;padding:0 2px;line-height:1;}
 .dtitle{font-size:14px;font-family:var(--fft);color:var(--text);flex:1;letter-spacing:0.5px;}
@@ -112,25 +103,28 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .tab.active{color:var(--red);border-bottom:2px solid var(--red);}
 .tpane{display:none;padding:14px 16px;}
 .tpane.active{display:block;}
-.evcard{background:var(--surface);border:0.5px solid var(--border2);border-radius:4px;padding:12px;margin-bottom:10px;}
+.evcard{background:var(--surface);border:0.5px solid var(--border2);border-radius:4px;padding:12px;margin-bottom:10px;position:relative;}
+.evcard .del-btn{position:absolute;top:8px;right:8px;background:none;border:none;font-size:14px;color:var(--text3);cursor:pointer;opacity:0.5;}
+.evcard .del-btn:hover{opacity:1;color:#e07070;}
 .evtype{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
 .nt{color:#7099c0;}.gt{color:#60a060;}.dt{color:#c0a050;}
 .evtitle{font-size:13px;color:var(--text);margin-bottom:4px;line-height:1.5;}
 .evsrc{font-size:11px;color:var(--text3);}
 .evsrc a{color:#7099c0;text-decoration:none;}
 .evnote{font-size:13px;color:var(--text2);line-height:1.7;}
-.tl-item{display:flex;gap:12px;margin-bottom:16px;}
+.tl-item{display:flex;gap:12px;margin-bottom:16px;position:relative;}
 .tl-line{display:flex;flex-direction:column;align-items:center;}
 .tl-dot{width:10px;height:10px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:4px;}
 .tl-track{width:1px;background:var(--border2);flex:1;margin-top:4px;}
 .tl-date{font-size:11px;color:var(--text3);margin-bottom:3px;}
 .tl-ev{font-size:13px;color:var(--text);line-height:1.6;}
+.tl-del{background:none;border:none;font-size:12px;color:var(--text3);cursor:pointer;margin-left:8px;opacity:0.5;}
+.tl-del:hover{opacity:1;color:#e07070;}
 .poi-warn{background:var(--red-bg);border:0.5px solid var(--red-dim);border-radius:4px;padding:12px;margin-bottom:12px;}
 .poi-warn p{font-size:12px;color:#c07070;line-height:1.7;}
 .add-btn{width:100%;padding:10px;border:0.5px dashed var(--border2);border-radius:4px;background:transparent;font-size:11px;color:var(--text3);display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;letter-spacing:0.05em;transition:all 0.15s;}
 .add-btn:hover{border-color:var(--red);color:var(--red);}
 
-/* NEW CASE */
 .tog-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:0.5px solid var(--border);}
 .tog-lbl{font-size:13px;color:var(--text);}
 .tog-sub{font-size:11px;color:var(--text3);margin-top:2px;}
@@ -139,7 +133,6 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .tog-knob{width:18px;height:18px;border-radius:50%;background:#f0ece0;position:absolute;top:3px;left:3px;transition:left 0.15s;pointer-events:none;}
 .tog.on .tog-knob{left:21px;}
 
-/* MY CASES */
 .my-case-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;}
 .my-case-row:hover{background:var(--surface);}
 .my-case-ico{width:40px;height:40px;border-radius:4px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
@@ -148,27 +141,25 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .my-case-bdg{font-size:10px;padding:2px 8px;border-radius:10px;}
 .bdg-pub{background:#1a2f1a;color:#60a060;}
 .bdg-priv{background:var(--surface2);color:var(--text3);}
+.delete-case-btn{background:none;border:none;font-size:16px;color:var(--text3);cursor:pointer;padding:4px;opacity:0.5;}
+.delete-case-btn:hover{opacity:1;color:#e07070;}
 
-/* NOTIFICATIONS */
 .nitem{display:flex;gap:12px;padding:13px 16px;border-bottom:0.5px solid var(--border);}
 .ndot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px;}
 .ndot.read{background:var(--border2);}
 .ntext{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
 .ntime{font-size:11px;color:var(--text3);display:block;margin-top:2px;}
 
-/* AD */
 .ad-unit{margin:8px 16px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:4px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;}
 .ad-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;}
 .ad-txt{font-size:12px;color:var(--text2);}
 .ad-upg{font-size:11px;color:var(--red);border:0.5px solid var(--red-dim);border-radius:20px;padding:3px 10px;background:transparent;}
 
-/* FOOTER */
 .footer{padding:16px;border-top:0.5px solid var(--border);margin-top:8px;}
 .footer p{font-size:10px;color:var(--text3);text-align:center;letter-spacing:0.04em;line-height:1.8;}
 .footer-links{display:flex;justify-content:center;gap:16px;margin-top:6px;}
 .footer-links a{font-size:10px;color:var(--text3);}
 
-/* NEWS */
 .ncard{border-bottom:0.5px solid var(--border);padding:14px 16px;cursor:pointer;}
 .ntop{display:flex;gap:12px;}
 .nico2{width:44px;height:44px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--surface2);}
@@ -180,7 +171,6 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .t-loc{background:#2a2a1a;color:#c0a050;}
 .t-court{background:#1a2a3a;color:#7099c0;}
 .t-cold{background:#1a2a2a;color:#50a090;}
-.t-ai{background:#2a1a3a;color:#9070c0;}
 .nacts{display:flex;gap:8px;margin-top:10px;}
 .abtn{font-size:11px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border2);background:transparent;color:var(--text2);letter-spacing:0.03em;transition:all 0.15s;}
 .abtn.primary{background:var(--red);color:#f0ece0;border-color:var(--red);}
@@ -188,11 +178,18 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .ai-ban{margin:12px 16px;background:#1a1228;border:0.5px solid #4a2a6a;border-radius:8px;padding:12px;display:flex;gap:10px;}
 .ai-txt{font-size:12px;color:#b090e0;line-height:1.7;}
 
-/* VERIFY EMAIL */
+.empty-state{padding:40px 16px;text-align:center;color:var(--text3);font-size:13px;line-height:1.8;}
+.empty-icon{font-size:40px;margin-bottom:12px;}
+
 .verify-screen{padding:40px 24px;text-align:center;}
 .verify-icon{font-size:48px;margin-bottom:16px;}
 .verify-title{font-family:var(--fft);font-size:24px;color:var(--text);margin-bottom:8px;letter-spacing:1px;}
 .verify-text{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:24px;}
+
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--surface);border:0.5px solid var(--border2);border-radius:8px;padding:10px 16px;font-size:12px;color:var(--text);z-index:300;display:none;max-width:300px;text-align:center;}
+.toast.show{display:block;}
+.toast.success{border-color:#3a5a3a;background:#1a2f1a;color:#60a060;}
+.toast.error{border-color:var(--red-dim);background:var(--red-bg);color:#e07070;}
 </style>
 </head>
 <body>
@@ -234,7 +231,7 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
       <label class="flbl">Email address</label>
       <input class="finput" type="email" id="f-email" placeholder="your@email.com">
       <button class="btnp" onclick="doForgot()">Send reset link</button>
-      <button class="btno" onclick="authTab('login', document.querySelector('.atab'))">Back to sign in</button>
+      <button class="btno" onclick="authTab('login',document.querySelector('.atab'))">Back to sign in</button>
     </div>
     <div style="margin-top:24px;text-align:center;font-size:11px;color:var(--text3);line-height:1.7;">
       By continuing you agree to our <a href="#" style="color:var(--text2);">Terms of Service</a> and <a href="#" style="color:var(--text2);">Privacy Policy</a><br>
@@ -243,16 +240,14 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
   </div>
 </div>
 
-<!-- VERIFY EMAIL -->
+<!-- VERIFY -->
 <div id="s-verify" class="screen">
   <div class="verify-screen">
     <div class="verify-icon">📬</div>
     <div class="verify-title">Check your email</div>
-    <div class="verify-text">We sent a verification link to your email address. Click the link to activate your account then come back here to sign in.</div>
+    <div class="verify-text">We sent a verification link to your email. Click it to activate your account then sign in here.</div>
     <button class="btnp" onclick="go('auth')">Back to sign in</button>
-    <div style="margin-top:16px;">
-      <button onclick="resendVerification()" style="background:none;border:none;font-size:12px;color:var(--text3);cursor:pointer;font-family:var(--ff);">Resend verification email</button>
-    </div>
+    <div style="margin-top:16px;"><button onclick="resendVerification()" style="background:none;border:none;font-size:12px;color:var(--text3);cursor:pointer;font-family:var(--ff);">Resend verification email</button></div>
   </div>
 </div>
 
@@ -260,10 +255,7 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 <div id="s-explore" class="screen">
   <div class="topbar">
     <div class="logo">crime<span class="logo-dash"></span><em>thread</em></div>
-    <div class="tright">
-      <button class="ibtn" onclick="go('notifs')">🔔</button>
-      <button class="ibtn" onclick="go('profile')">👤</button>
-    </div>
+    <div class="tright"><button class="ibtn" onclick="go('notifs')">🔔</button><button class="ibtn" onclick="go('profile')">👤</button></div>
   </div>
   <div class="filter-row">
     <button class="chip active" onclick="fc(this)">All</button>
@@ -272,28 +264,13 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
     <button class="chip" onclick="fc(this)">Court cases</button>
     <button class="chip" onclick="fc(this)">Fraud</button>
   </div>
-  <div class="ad-unit" id="explore-ad">
-    <div><div class="ad-lbl">Sponsored</div><div class="ad-txt">True Crime Obsessed Podcast</div></div>
-    <button class="ad-upg" onclick="go('pricing')">Remove ads ↗</button>
-  </div>
-  <div class="slabel">// trending cases</div>
+  <div class="ad-unit"><div><div class="ad-lbl">Sponsored</div><div class="ad-txt">True Crime Obsessed Podcast</div></div><button class="ad-upg">Remove ads ↗</button></div>
+  <div class="slabel">// demo cases</div>
   <div class="case-grid">
-    <div class="case-card" onclick="goDetail('The Zodiac Killer','🔎','cold',56)">
-      <div class="cthumb">🔎</div>
-      <div class="cinfo"><div class="ctitle">The Zodiac Killer</div><div class="cmeta"><span class="bdg b-cold">Cold</span><span class="bcnt">56 yrs</span></div></div>
-    </div>
-    <div class="case-card" onclick="goDetail('The Black Dahlia','🌹','cold',77)">
-      <div class="cthumb">🌹</div>
-      <div class="cinfo"><div class="ctitle">The Black Dahlia</div><div class="cmeta"><span class="bdg b-cold">Cold</span><span class="bcnt">77 yrs</span></div></div>
-    </div>
-    <div class="case-card" onclick="goDetail('Route 9 Cold Case 1987','📁','cold',128)">
-      <div class="cthumb">📁</div>
-      <div class="cinfo"><div class="ctitle">Route 9 Cold Case 1987</div><div class="cmeta"><span class="bdg b-cold">Cold</span><span class="bcnt">128 pins</span></div></div>
-    </div>
-    <div class="case-card" onclick="goDetail('Hartley Financial Fraud','⚖️','solved',67)">
-      <div class="cthumb">⚖️</div>
-      <div class="cinfo"><div class="ctitle">Hartley Financial Fraud</div><div class="cmeta"><span class="bdg b-solved">Charged</span><span class="bcnt">67 pins</span></div></div>
-    </div>
+    <div class="case-card" onclick="openDemoBoard('zodiac')"><div class="cthumb">🔎</div><div class="cinfo"><div class="ctitle">The Zodiac Killer</div><div class="cmeta"><span class="bdg b-cold">Cold</span><span class="bcnt">56 yrs</span></div></div></div>
+    <div class="case-card" onclick="openDemoBoard('dahlia')"><div class="cthumb">🌹</div><div class="cinfo"><div class="ctitle">The Black Dahlia</div><div class="cmeta"><span class="bdg b-cold">Cold</span><span class="bcnt">77 yrs</span></div></div></div>
+    <div class="case-card" onclick="openDemoBoard('db')"><div class="cthumb">✈️</div><div class="cinfo"><div class="ctitle">DB Cooper</div><div class="cmeta"><span class="bdg b-cold">Cold</span><span class="bcnt">55 yrs</span></div></div></div>
+    <div class="case-card" onclick="go('new')"><div class="cthumb" style="font-size:36px;">＋</div><div class="cinfo"><div class="ctitle">Create your own</div><div class="cmeta"><span class="bcnt">Build a case board</span></div></div></div>
   </div>
   <div class="footer"><p>© 2026 Crimethread. All rights reserved.</p><div class="footer-links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Contact</a></div></div>
 </div>
@@ -310,18 +287,9 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
   </div>
   <div class="ai-ban"><div style="font-size:16px;flex-shrink:0;">🤖</div><div class="ai-txt"><strong style="color:#c0a0f0;">3 new AI case boards</strong> generated from today's news.</div></div>
   <div class="slabel">// today — april 3, 2026</div>
-  <div class="ncard">
-    <div class="ntop"><div class="nico2">🔎</div><div><div class="ntitle">Police reopen 2019 cold case after new DNA evidence identified</div><div class="nmeta"><span class="nsrc">AP News</span><span class="tag t-nat">National</span></div></div></div>
-    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary">View board</button></div>
-  </div>
-  <div class="ncard">
-    <div class="ntop"><div class="nico2">⚖️</div><div><div class="ntitle">Trial begins for former CFO accused of $40M embezzlement scheme</div><div class="nmeta"><span class="nsrc">Reuters</span><span class="tag t-court">Court</span></div></div></div>
-    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn" onclick="this.textContent='✓ Created';this.style.color='#60a060';">+ New board</button></div>
-  </div>
-  <div class="ncard">
-    <div class="ntop"><div class="nico2">📁</div><div><div class="ntitle">NamUs flags 14 unidentified remains matching 1990s missing persons reports</div><div class="nmeta"><span class="nsrc">NamUs / DOJ</span><span class="tag t-cold">Cold case</span></div></div></div>
-    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary">View board</button></div>
-  </div>
+  <div class="ncard"><div class="ntop"><div class="nico2">🔎</div><div><div class="ntitle">Police reopen 2019 cold case after new DNA evidence identified</div><div class="nmeta"><span class="nsrc">AP News</span><span class="tag t-nat">National</span></div></div></div><div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary">View board</button></div></div>
+  <div class="ncard"><div class="ntop"><div class="nico2">⚖️</div><div><div class="ntitle">Trial begins for former CFO accused of $40M embezzlement scheme</div><div class="nmeta"><span class="nsrc">Reuters</span><span class="tag t-court">Court</span></div></div></div><div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn" onclick="this.textContent='✓ Created';this.style.color='#60a060';">+ New board</button></div></div>
+  <div class="ncard"><div class="ntop"><div class="nico2">📁</div><div><div class="ntitle">NamUs flags 14 unidentified remains matching 1990s missing persons reports</div><div class="nmeta"><span class="nsrc">NamUs / DOJ</span><span class="tag t-cold">Cold case</span></div></div></div><div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary">View board</button></div></div>
   <div class="footer"><p>© 2026 Crimethread. All rights reserved.</p></div>
 </div>
 
@@ -337,13 +305,17 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
     <select class="finput" id="new-cat">
       <option>Missing person</option><option>Unsolved homicide</option><option>Cold case</option><option>White collar / fraud</option><option>Other</option>
     </select>
+    <label class="flbl">Icon</label>
+    <select class="finput" id="new-icon">
+      <option value="🔎">🔎 Investigation</option><option value="📁">📁 Case file</option><option value="🌹">🌹 Victim</option><option value="⚖️">⚖️ Legal</option><option value="🗺️">🗺️ Location</option><option value="✈️">✈️ Travel</option><option value="💰">💰 Financial</option><option value="🔬">🔬 Forensics</option>
+    </select>
     <div class="tog-row">
       <div><div class="tog-lbl">Make public</div><div class="tog-sub">Community can view &amp; follow</div></div>
       <button class="tog" id="tog-pub" onclick="this.classList.toggle('on')"><div class="tog-knob"></div></button>
     </div>
     <div class="tog-row">
       <div><div class="tog-lbl">Allow contributions</div><div class="tog-sub">Others can add evidence cards</div></div>
-      <button class="tog" onclick="this.classList.toggle('on')"><div class="tog-knob"></div></button>
+      <button class="tog" id="tog-contrib" onclick="this.classList.toggle('on')"><div class="tog-knob"></div></button>
     </div>
     <button class="btnp" onclick="createCase()" style="margin-top:16px;" id="create-btn">Create case board</button>
   </div>
@@ -353,7 +325,7 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 <div id="s-mycases" class="screen">
   <div class="topbar"><div class="logo">crime<span class="logo-dash"></span><em>thread</em></div><div class="tright"><button class="ibtn" onclick="go('new')">＋</button></div></div>
   <div class="slabel">// my case boards</div>
-  <div id="my-cases-list"><div style="padding:32px 16px;text-align:center;color:var(--text3);font-size:13px;">Loading your cases...</div></div>
+  <div id="my-cases-list"><div class="empty-state"><div class="empty-icon">📁</div>Loading your cases...</div></div>
   <div style="padding:16px;"><button class="btno" onclick="go('new')">+ create new case board</button></div>
 </div>
 
@@ -370,20 +342,17 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
     <button class="tab" onclick="showTab('poi',this)">Persons</button>
   </div>
   <div id="tp-ev" class="tpane active">
-    <div class="evcard"><div class="evtype nt">// news article</div><div class="evtitle">Woman reported missing after hiking trip in Willowbrook State Park</div><div class="evsrc"><a href="#">Local Gazette ↗</a> · Mar 12, 2024</div></div>
-    <div class="evcard"><div class="evtype dt">// public record</div><div class="evtitle">Search and rescue summary — Willowbrook PD</div><div class="evsrc"><a href="#">County records portal ↗</a> · Mar 15, 2024</div></div>
-    <div class="evcard"><div class="evtype gt">// analyst note</div><div class="evnote">Last known cell ping was 2.3 miles from trailhead. Rescue covered 1.8 miles east — the western segment was never searched.</div></div>
-    <button class="add-btn" onclick="addEvidence()">+ add evidence card</button>
+    <div id="ev-list"><div class="empty-state" style="padding:20px;">No evidence yet. Add your first card below.</div></div>
+    <button class="add-btn" onclick="openAddEvidence()">+ add evidence card</button>
   </div>
   <div id="tp-tl" class="tpane">
-    <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div><div><div class="tl-date">Mar 10, 2024 · 07:42</div><div class="tl-ev">Last seen leaving trailhead parking lot</div></div></div>
-    <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div><div><div class="tl-date">Mar 10, 2024 · 14:15</div><div class="tl-ev">Final cell tower ping 2.3mi west of trail</div></div></div>
-    <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div></div><div><div class="tl-date">Mar 11, 2024 · 09:00</div><div class="tl-ev">Family reports her missing to Willowbrook PD</div></div></div>
-    <button class="add-btn" onclick="addTimeline()">+ add timeline event</button>
+    <div id="tl-list"><div class="empty-state" style="padding:20px;">No timeline events yet.</div></div>
+    <button class="add-btn" onclick="openAddTimeline()">+ add timeline event</button>
   </div>
   <div id="tp-poi" class="tpane">
     <div class="poi-warn"><p>⚖️ Persons of interest may only be referenced by text description or linked to official news sources. No photos of individuals permitted.</p></div>
-    <button class="add-btn" onclick="addPOI()">+ add person of interest</button>
+    <div id="poi-list"></div>
+    <button class="add-btn" onclick="openAddPOI()">+ add person of interest</button>
   </div>
 </div>
 
@@ -396,7 +365,7 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
     <div class="prof-sub" id="prof-email">Loading...</div>
     <div class="prof-stats">
       <div><div class="stn" id="prof-cases">0</div><div class="stl">Cases</div></div>
-      <div><div class="stn">0</div><div class="stl">Pins</div></div>
+      <div><div class="stn" id="prof-evidence">0</div><div class="stl">Evidence</div></div>
       <div><div class="stn">0</div><div class="stl">Followers</div></div>
     </div>
   </div>
@@ -413,9 +382,8 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 <!-- NOTIFICATIONS -->
 <div id="s-notifs" class="screen">
   <div class="topbar"><button class="back" onclick="goBack()" style="font-size:22px;color:var(--text2);background:none;border:none;padding:0 2px;">‹</button><div style="font-family:var(--fft);font-size:16px;color:var(--text);letter-spacing:0.5px;flex:1;padding-left:8px;">Notifications</div></div>
-  <div class="nitem"><div class="ndot"></div><div class="ntext">New article matches your followed case <strong>Willowbrook Disappearance</strong><span class="ntime">Local Gazette · 1h ago</span></div></div>
-  <div class="nitem"><div class="ndot"></div><div class="ntext">Court update on <strong>Hartley Financial Fraud</strong> — sentencing confirmed<span class="ntime">CourtListener · 3h ago</span></div></div>
-  <div class="nitem"><div class="ndot read"></div><div class="ntext">Someone followed your case board<span class="ntime">Yesterday</span></div></div>
+  <div class="nitem"><div class="ndot"></div><div class="ntext">Welcome to Crimethread! Start by creating your first case board.<span class="ntime">Just now</span></div></div>
+  <div class="nitem"><div class="ndot read"></div><div class="ntext">New cold case demo boards available — Zodiac Killer, Black Dahlia, DB Cooper<span class="ntime">Today</span></div></div>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -435,25 +403,60 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
     <label class="flbl">Type</label>
     <select class="finput" id="ev-type"><option value="news">News article</option><option value="doc">Public record</option><option value="note">Analysis note</option></select>
     <label class="flbl">Title</label>
-    <input class="finput" type="text" id="ev-title" placeholder="e.g. Witness statement published in...">
+    <input class="finput" type="text" id="ev-title" placeholder="Describe this evidence...">
     <label class="flbl">Source URL (news &amp; documents only)</label>
     <input class="finput" type="url" id="ev-url" placeholder="https://...">
     <div style="background:var(--red-bg);border:0.5px solid var(--red-dim);border-radius:4px;padding:10px;margin-bottom:14px;font-size:11px;color:#c07070;line-height:1.7;">⚖️ Only link to official news sources or public records. No photos of individuals.</div>
-    <button class="btnp" onclick="saveEvidence()">Add to case</button>
+    <button class="btnp" id="ev-save-btn" onclick="saveEvidence()">Add to case</button>
   </div>
 </div>
 
+<!-- TIMELINE MODAL -->
+<div id="tl-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;align-items:flex-end;justify-content:center;">
+  <div style="background:var(--surface);border-radius:12px 12px 0 0;padding:24px;width:100%;max-width:480px;border-top:0.5px solid var(--border2);position:relative;">
+    <button onclick="closeTl()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--text3);">✕</button>
+    <div style="font-family:var(--fft);font-size:20px;color:var(--text);margin-bottom:16px;">Add timeline event</div>
+    <label class="flbl">Date / Time</label>
+    <input class="finput" type="text" id="tl-date" placeholder="e.g. Mar 10, 1969 · 7:42am">
+    <label class="flbl">What happened?</label>
+    <textarea class="finput" id="tl-desc" rows="3" placeholder="Describe the event..." style="resize:none;"></textarea>
+    <button class="btnp" id="tl-save-btn" onclick="saveTimeline()">Add event</button>
+  </div>
+</div>
+
+<!-- POI MODAL -->
+<div id="poi-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;align-items:flex-end;justify-content:center;">
+  <div style="background:var(--surface);border-radius:12px 12px 0 0;padding:24px;width:100%;max-width:480px;border-top:0.5px solid var(--border2);position:relative;">
+    <button onclick="closePoi()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--text3);">✕</button>
+    <div style="font-family:var(--fft);font-size:20px;color:var(--text);margin-bottom:16px;">Add person of interest</div>
+    <label class="flbl">Text description only</label>
+    <input class="finput" type="text" id="poi-desc" placeholder="e.g. Unnamed male, approx. 40-50, grey jacket">
+    <label class="flbl">Source (official news or public record only)</label>
+    <input class="finput" type="url" id="poi-url" placeholder="https://...">
+    <button class="btnp" id="poi-save-btn" onclick="savePOI()">Add person</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
 <script>
-// ── Supabase Setup ──
 const SUPABASE_URL = 'https://bwoxhjxudmfzrzlglnzq.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_rgJ2BTHkl0mf6qRo0MNZxA_8kjg8oeV';
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ── State ──
-const state = { user: null, prevScreen: 'explore', currentCase: null, pendingEmail: null };
+const state = { user: null, prevScreen: 'explore', currentBoard: null, pendingEmail: null };
 
-// ── Auth Functions ──
+// ── Toast ──
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Auth ──
 function authTab(t, el) {
   document.querySelectorAll('.atab').forEach(x => x.classList.remove('active'));
   if (el) el.classList.add('active');
@@ -468,30 +471,11 @@ function showForgot() {
   document.getElementById('auth-login').style.display = 'none';
   document.getElementById('auth-signup').style.display = 'none';
   document.getElementById('auth-forgot').style.display = 'block';
-  clearMessages();
 }
 
-function showErr(msg) {
-  const e = document.getElementById('auth-err');
-  e.textContent = msg; e.classList.add('show');
-}
-
-function showSuccess(msg) {
-  const s = document.getElementById('auth-success');
-  s.textContent = msg; s.classList.add('show');
-}
-
-function clearMessages() {
-  document.getElementById('auth-err').classList.remove('show');
-  document.getElementById('auth-success').classList.remove('show');
-}
-
-function setLoading(btnId, loading) {
-  const btn = document.getElementById(btnId);
-  if (!btn) return;
-  btn.disabled = loading;
-  btn.innerHTML = loading ? '<span class="loading-spinner"></span>Please wait...' : btn.getAttribute('data-text') || btn.textContent;
-}
+function showErr(msg) { const e = document.getElementById('auth-err'); e.textContent = msg; e.classList.add('show'); }
+function showSuccess(msg) { const s = document.getElementById('auth-success'); s.textContent = msg; s.classList.add('show'); }
+function clearMessages() { document.getElementById('auth-err').classList.remove('show'); document.getElementById('auth-success').classList.remove('show'); }
 
 async function doLogin() {
   const email = document.getElementById('l-email').value.trim();
@@ -499,11 +483,9 @@ async function doLogin() {
   if (!email || !pass) { showErr('Please enter your email and password.'); return; }
   clearMessages();
   const btn = document.getElementById('login-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="loading-spinner"></span>Signing in...';
+  btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span>Signing in...';
   const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-  btn.disabled = false;
-  btn.textContent = 'Sign in';
+  btn.disabled = false; btn.textContent = 'Sign in';
   if (error) { showErr(error.message); return; }
   loginSuccess(data.user);
 }
@@ -514,52 +496,38 @@ async function doSignup() {
   const pass = document.getElementById('s-pass').value;
   if (!username || !email || !pass) { showErr('Please fill in all fields.'); return; }
   if (pass.length < 8) { showErr('Password must be at least 8 characters.'); return; }
-  if (username.length < 3) { showErr('Username must be at least 3 characters.'); return; }
   clearMessages();
   const btn = document.getElementById('signup-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="loading-spinner"></span>Creating account...';
-  const { data, error } = await sb.auth.signUp({
-    email, password: pass,
-    options: { data: { username, display_name: username } }
-  });
-  btn.disabled = false;
-  btn.textContent = 'Create account';
+  btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span>Creating account...';
+  const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { username, display_name: username } } });
+  btn.disabled = false; btn.textContent = 'Create account';
   if (error) { showErr(error.message); return; }
-  if (data.user && !data.user.confirmed_at) {
-    state.pendingEmail = email;
-    go('verify');
-  } else if (data.user) {
-    loginSuccess(data.user);
-  }
+  if (data.user && !data.user.confirmed_at) { state.pendingEmail = email; go('verify'); }
+  else if (data.user) loginSuccess(data.user);
 }
 
 async function doForgot() {
   const email = document.getElementById('f-email').value.trim();
   if (!email) { showErr('Please enter your email address.'); return; }
-  clearMessages();
-  const { error } = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin
-  });
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: 'https://crimethread.vercel.app' });
   if (error) { showErr(error.message); return; }
   showSuccess('Password reset link sent! Check your email.');
 }
 
 async function resendVerification() {
   if (!state.pendingEmail) return;
-  const { error } = await sb.auth.resend({ type: 'signup', email: state.pendingEmail });
-  if (!error) alert('Verification email resent!');
+  await sb.auth.resend({ type: 'signup', email: state.pendingEmail });
+  showToast('Verification email resent!', 'success');
 }
 
 function demoLogin() {
-  state.user = { email: 'guest@demo.com', user_metadata: { username: 'Guest_Investigator', display_name: 'Guest_Investigator' } };
+  state.user = { id: 'demo', email: 'guest@demo.com', user_metadata: { username: 'Guest_Investigator' } };
   loginSuccess(state.user);
 }
 
 function loginSuccess(user) {
   state.user = user;
   updateProfile(user);
-  loadMyCases();
   document.getElementById('bnav').style.display = 'flex';
   go('explore');
 }
@@ -570,8 +538,6 @@ async function doLogout() {
   document.getElementById('bnav').style.display = 'none';
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('s-auth').classList.add('active');
-  document.getElementById('l-email').value = '';
-  document.getElementById('l-pass').value = '';
 }
 
 function updateProfile(user) {
@@ -580,46 +546,10 @@ function updateProfile(user) {
   document.getElementById('prof-email').textContent = user?.email || 'Guest account';
 }
 
-// ── My Cases ──
-async function loadMyCases() {
-  if (!state.user || state.user.email === 'guest@demo.com') {
-    document.getElementById('my-cases-list').innerHTML = `
-      <div class="my-case-row" onclick="goDetail('Zodiac Killer Demo','🔎','cold',43)">
-        <div class="my-case-ico">🔎</div>
-        <div style="flex:1"><div class="my-case-name">Zodiac Killer Demo</div><div class="my-case-sub">Demo board · public</div></div>
-        <span class="my-case-bdg bdg-pub">Public</span>
-      </div>
-      <div style="padding:16px;text-align:center;font-size:12px;color:var(--text3);">Sign in to save your own case boards</div>`;
-    return;
-  }
-  document.getElementById('prof-cases').textContent = '0';
-  document.getElementById('my-cases-list').innerHTML = `<div style="padding:32px 16px;text-align:center;color:var(--text3);font-size:13px;">No case boards yet.<br>Create your first one!</div>`;
-}
-
-async function createCase() {
-  const name = document.getElementById('new-name').value.trim();
-  if (!name) { alert('Please enter a case name.'); return; }
-  if (!state.user || state.user.email === 'guest@demo.com') {
-    alert('Please sign in to create and save case boards.');
-    go('auth'); return;
-  }
-  const btn = document.getElementById('create-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="loading-spinner"></span>Creating...';
-  const isPublic = document.getElementById('tog-pub').classList.contains('on');
-  const desc = document.getElementById('new-desc').value.trim();
-  const cat = document.getElementById('new-cat').value;
-  goDetail(name, '📁', 'open', 0);
-  btn.disabled = false;
-  btn.textContent = 'Create case board';
-  document.getElementById('new-name').value = '';
-  document.getElementById('new-desc').value = '';
-}
-
 // ── Navigation ──
 function go(screen) {
   const prev = document.querySelector('.screen.active');
-  if (prev && prev.id !== 's-auth' && prev.id !== 's-verify') state.prevScreen = prev.id.replace('s-','');
+  if (prev && !['s-auth','s-verify'].includes(prev.id)) state.prevScreen = prev.id.replace('s-','');
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nbtn').forEach(n => n.classList.remove('active'));
   document.getElementById('s-' + screen).classList.add('active');
@@ -627,17 +557,10 @@ function go(screen) {
   if (nb) nb.classList.add('active');
   window.scrollTo(0, 0);
   if (screen === 'mycases') loadMyCases();
-  if (screen === 'profile' && state.user) updateProfile(state.user);
+  if (screen === 'profile' && state.user) { updateProfile(state.user); loadProfileStats(); }
 }
 
 function goBack() { go(state.prevScreen || 'explore'); }
-
-function goDetail(title, icon, status, pins) {
-  state.currentCase = { title, icon, status, pins };
-  document.getElementById('d-title').textContent = title;
-  state.prevScreen = document.querySelector('.screen.active').id.replace('s-','');
-  go('detail');
-}
 
 function showTab(name, el) {
   document.querySelectorAll('.tpane').forEach(t => t.classList.remove('active'));
@@ -656,60 +579,249 @@ function pinNews(btn) {
   btn.textContent = btn.classList.contains('pinned') ? '📌 Pinned' : '📌 Pin';
 }
 
-function addEvidence() { document.getElementById('ev-overlay').style.display = 'flex'; }
+// ── Case Boards ──
+async function createCase() {
+  const name = document.getElementById('new-name').value.trim();
+  if (!name) { showToast('Please enter a case name.', 'error'); return; }
+  if (!state.user || state.user.id === 'demo') { showToast('Please sign in to create case boards.', 'error'); go('auth'); return; }
+  const btn = document.getElementById('create-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span>Creating...';
+  const isPublic = document.getElementById('tog-pub').classList.contains('on');
+  const allowContrib = document.getElementById('tog-contrib').classList.contains('on');
+  const { data, error } = await sb.from('case_boards').insert({
+    user_id: state.user.id,
+    title: name,
+    description: document.getElementById('new-desc').value.trim(),
+    category: document.getElementById('new-cat').value,
+    icon: document.getElementById('new-icon').value,
+    is_public: isPublic,
+    allow_contributions: allowContrib,
+    status: 'open'
+  }).select().single();
+  btn.disabled = false; btn.textContent = 'Create case board';
+  if (error) { showToast('Error creating board: ' + error.message, 'error'); return; }
+  document.getElementById('new-name').value = '';
+  document.getElementById('new-desc').value = '';
+  showToast('Case board created!', 'success');
+  openBoard(data);
+}
+
+async function loadMyCases() {
+  if (!state.user || state.user.id === 'demo') {
+    document.getElementById('my-cases-list').innerHTML = `<div class="empty-state"><div class="empty-icon">🔐</div>Sign in to see your case boards</div>`;
+    return;
+  }
+  document.getElementById('my-cases-list').innerHTML = `<div class="empty-state"><div class="empty-icon">📁</div>Loading...</div>`;
+  const { data, error } = await sb.from('case_boards').select('*').eq('user_id', state.user.id).order('created_at', { ascending: false });
+  if (error || !data || data.length === 0) {
+    document.getElementById('my-cases-list').innerHTML = `<div class="empty-state"><div class="empty-icon">📁</div>No case boards yet.<br>Create your first one!</div>`;
+    return;
+  }
+  document.getElementById('prof-cases').textContent = data.length;
+  document.getElementById('my-cases-list').innerHTML = data.map(board => `
+    <div class="my-case-row" onclick="openBoard(${JSON.stringify(board).replace(/"/g,'&quot;')})">
+      <div class="my-case-ico">${board.icon || '📁'}</div>
+      <div style="flex:1">
+        <div class="my-case-name">${board.title}</div>
+        <div class="my-case-sub">${board.category} · ${board.is_public ? 'public' : 'private'}</div>
+      </div>
+      <span class="my-case-bdg ${board.is_public ? 'bdg-pub' : 'bdg-priv'}">${board.is_public ? 'Public' : 'Private'}</span>
+      <button class="delete-case-btn" onclick="event.stopPropagation();deleteBoard('${board.id}')">🗑️</button>
+    </div>`).join('');
+}
+
+async function deleteBoard(id) {
+  if (!confirm('Delete this case board and all its evidence?')) return;
+  const { error } = await sb.from('case_boards').delete().eq('id', id);
+  if (error) { showToast('Error deleting board', 'error'); return; }
+  showToast('Case board deleted', 'success');
+  loadMyCases();
+}
+
+function openBoard(board) {
+  state.currentBoard = board;
+  document.getElementById('d-title').textContent = board.title;
+  document.getElementById('d-priv').textContent = board.is_public ? '🌐 Public' : '🔒 Private';
+  state.prevScreen = document.querySelector('.screen.active').id.replace('s-','');
+  loadEvidence();
+  loadTimeline();
+  loadPOIs();
+  go('detail');
+  showTab('ev', document.querySelector('.tab'));
+}
+
+function openDemoBoard(type) {
+  const demos = {
+    zodiac: { id: 'demo-zodiac', title: 'The Zodiac Killer', icon: '🔎', is_public: true, category: 'Cold case' },
+    dahlia: { id: 'demo-dahlia', title: 'The Black Dahlia', icon: '🌹', is_public: true, category: 'Cold case' },
+    db: { id: 'demo-db', title: 'DB Cooper', icon: '✈️', is_public: true, category: 'Cold case' }
+  };
+  const board = demos[type];
+  state.currentBoard = board;
+  document.getElementById('d-title').textContent = board.title;
+  document.getElementById('d-priv').textContent = '🌐 Demo';
+  state.prevScreen = 'explore';
+  // Load demo content
+  document.getElementById('ev-list').innerHTML = `
+    <div class="evcard"><div class="evtype nt">// news article</div><div class="evtitle">Official case files and news coverage</div><div class="evsrc"><a href="https://vault.fbi.gov" target="_blank">FBI Records Vault ↗</a></div></div>
+    <div class="evcard"><div class="evtype gt">// analyst note</div><div class="evnote">This is a demo case board. Sign in and create your own board to add evidence, build timelines, and save your research.</div></div>`;
+  document.getElementById('tl-list').innerHTML = `<div class="empty-state" style="padding:20px;">Sign in to build timelines on your own boards.</div>`;
+  document.getElementById('poi-list').innerHTML = '';
+  go('detail');
+  showTab('ev', document.querySelector('.tab'));
+}
+
+// ── Evidence ──
+async function loadEvidence() {
+  if (!state.currentBoard || state.currentBoard.id.startsWith('demo')) return;
+  const { data } = await sb.from('evidence_cards').select('*').eq('board_id', state.currentBoard.id).order('created_at');
+  const list = document.getElementById('ev-list');
+  if (!data || data.length === 0) { list.innerHTML = `<div class="empty-state" style="padding:20px;">No evidence yet. Add your first card below.</div>`; return; }
+  const typeColors = {news:'nt', doc:'dt', note:'gt'};
+  const typeLabels = {news:'news article', doc:'public record', note:'analyst note'};
+  list.innerHTML = data.map(ev => `
+    <div class="evcard">
+      <button class="del-btn" onclick="deleteEvidence('${ev.id}')">✕</button>
+      <div class="evtype ${typeColors[ev.type] || 'nt'}">// ${typeLabels[ev.type] || ev.type}</div>
+      <div class="evtitle">${ev.title}</div>
+      ${ev.source_url ? `<div class="evsrc"><a href="${ev.source_url}" target="_blank">Source ↗</a></div>` : ''}
+      ${ev.note ? `<div class="evnote">${ev.note}</div>` : ''}
+    </div>`).join('');
+}
+
+function openAddEvidence() { document.getElementById('ev-overlay').style.display = 'flex'; }
 function closeEv() { document.getElementById('ev-overlay').style.display = 'none'; }
 
-function saveEvidence() {
-  const type = document.getElementById('ev-type').value;
+async function saveEvidence() {
   const title = document.getElementById('ev-title').value.trim();
-  if (!title) { alert('Please enter a title.'); return; }
-  const pane = document.getElementById('tp-ev');
-  const card = document.createElement('div');
-  card.className = 'evcard';
-  const typeLabels = {news:'news article', doc:'public record', note:'analyst note'};
-  const typeColors = {news:'nt', doc:'dt', note:'gt'};
-  const url = document.getElementById('ev-url').value;
-  card.innerHTML = `<div class="evtype ${typeColors[type]}>// ${typeLabels[type]}</div><div class="evtitle">${title}</div>${url ? `<div class="evsrc"><a href="${url}" target="_blank">Source ↗</a></div>` : ''}`;
-  pane.insertBefore(card, pane.querySelector('.add-btn'));
-  closeEv();
+  if (!title) { showToast('Please enter a title.', 'error'); return; }
+  if (!state.user || state.user.id === 'demo') { showToast('Sign in to add evidence.', 'error'); return; }
+  const btn = document.getElementById('ev-save-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span>Saving...';
+  const { error } = await sb.from('evidence_cards').insert({
+    board_id: state.currentBoard.id,
+    user_id: state.user.id,
+    type: document.getElementById('ev-type').value,
+    title,
+    source_url: document.getElementById('ev-url').value.trim() || null
+  });
+  btn.disabled = false; btn.textContent = 'Add to case';
+  if (error) { showToast('Error saving evidence: ' + error.message, 'error'); return; }
   document.getElementById('ev-title').value = '';
   document.getElementById('ev-url').value = '';
+  closeEv();
+  loadEvidence();
+  showToast('Evidence added!', 'success');
 }
 
-function addTimeline() {
-  const date = prompt('Event date:');
-  const event = prompt('What happened?');
-  if (!date || !event) return;
-  const pane = document.getElementById('tp-tl');
-  const item = document.createElement('div');
-  item.className = 'tl-item';
-  item.innerHTML = `<div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div><div><div class="tl-date">${date}</div><div class="tl-ev">${event}</div></div>`;
-  pane.insertBefore(item, pane.querySelector('.add-btn'));
+async function deleteEvidence(id) {
+  await sb.from('evidence_cards').delete().eq('id', id);
+  loadEvidence();
+  showToast('Evidence removed', 'success');
 }
 
-function addPOI() {
-  const desc = prompt('Text description only (e.g. Unnamed male, approx. 40-50):');
-  if (!desc) return;
-  const pane = document.getElementById('tp-poi');
-  const card = document.createElement('div');
-  card.className = 'evcard';
-  card.innerHTML = `<div class="evtype gt">// person of interest</div><div class="evtitle">${desc}</div>`;
-  pane.insertBefore(card, pane.querySelector('.add-btn'));
+// ── Timeline ──
+async function loadTimeline() {
+  if (!state.currentBoard || state.currentBoard.id.startsWith('demo')) return;
+  const { data } = await sb.from('timeline_events').select('*').eq('board_id', state.currentBoard.id).order('created_at');
+  const list = document.getElementById('tl-list');
+  if (!data || data.length === 0) { list.innerHTML = `<div class="empty-state" style="padding:20px;">No timeline events yet.</div>`; return; }
+  list.innerHTML = data.map((ev, i) => `
+    <div class="tl-item">
+      <div class="tl-line"><div class="tl-dot"></div>${i < data.length-1 ? '<div class="tl-track"></div>' : ''}</div>
+      <div style="flex:1"><div class="tl-date">${ev.event_date || ''}</div><div class="tl-ev">${ev.description}</div></div>
+      <button class="tl-del" onclick="deleteTimeline('${ev.id}')">✕</button>
+    </div>`).join('');
+}
+
+function openAddTimeline() { document.getElementById('tl-overlay').style.display = 'flex'; }
+function closeTl() { document.getElementById('tl-overlay').style.display = 'none'; }
+
+async function saveTimeline() {
+  const desc = document.getElementById('tl-desc').value.trim();
+  if (!desc) { showToast('Please describe the event.', 'error'); return; }
+  if (!state.user || state.user.id === 'demo') { showToast('Sign in to add timeline events.', 'error'); return; }
+  const btn = document.getElementById('tl-save-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span>Saving...';
+  const { error } = await sb.from('timeline_events').insert({
+    board_id: state.currentBoard.id,
+    user_id: state.user.id,
+    event_date: document.getElementById('tl-date').value.trim(),
+    description: desc
+  });
+  btn.disabled = false; btn.textContent = 'Add event';
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  document.getElementById('tl-date').value = '';
+  document.getElementById('tl-desc').value = '';
+  closeTl();
+  loadTimeline();
+  showToast('Timeline event added!', 'success');
+}
+
+async function deleteTimeline(id) {
+  await sb.from('timeline_events').delete().eq('id', id);
+  loadTimeline();
+}
+
+// ── POIs ──
+async function loadPOIs() {
+  if (!state.currentBoard || state.currentBoard.id.startsWith('demo')) return;
+  const { data } = await sb.from('persons_of_interest').select('*').eq('board_id', state.currentBoard.id).order('created_at');
+  const list = document.getElementById('poi-list');
+  if (!data || data.length === 0) { list.innerHTML = ''; return; }
+  list.innerHTML = data.map((p, i) => `
+    <div class="evcard">
+      <button class="del-btn" onclick="deletePOI('${p.id}')">✕</button>
+      <div class="evtype gt">// person of interest #${i+1}</div>
+      <div class="evtitle">${p.description}</div>
+      ${p.source_url ? `<div class="evsrc"><a href="${p.source_url}" target="_blank">Source ↗</a></div>` : ''}
+    </div>`).join('');
+}
+
+function openAddPOI() { document.getElementById('poi-overlay').style.display = 'flex'; }
+function closePoi() { document.getElementById('poi-overlay').style.display = 'none'; }
+
+async function savePOI() {
+  const desc = document.getElementById('poi-desc').value.trim();
+  if (!desc) { showToast('Please enter a description.', 'error'); return; }
+  if (!state.user || state.user.id === 'demo') { showToast('Sign in to add persons of interest.', 'error'); return; }
+  const btn = document.getElementById('poi-save-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span>Saving...';
+  const { error } = await sb.from('persons_of_interest').insert({
+    board_id: state.currentBoard.id,
+    user_id: state.user.id,
+    description: desc,
+    source_url: document.getElementById('poi-url').value.trim() || null
+  });
+  btn.disabled = false; btn.textContent = 'Add person';
+  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  document.getElementById('poi-desc').value = '';
+  document.getElementById('poi-url').value = '';
+  closePoi();
+  loadPOIs();
+  showToast('Person of interest added!', 'success');
+}
+
+async function deletePOI(id) {
+  await sb.from('persons_of_interest').delete().eq('id', id);
+  loadPOIs();
+}
+
+// ── Profile Stats ──
+async function loadProfileStats() {
+  if (!state.user || state.user.id === 'demo') return;
+  const { count } = await sb.from('case_boards').select('*', { count: 'exact', head: true }).eq('user_id', state.user.id);
+  document.getElementById('prof-cases').textContent = count || 0;
+  const { count: evCount } = await sb.from('evidence_cards').select('*', { count: 'exact', head: true }).eq('user_id', state.user.id);
+  document.getElementById('prof-evidence').textContent = evCount || 0;
 }
 
 // ── Auth State Listener ──
 sb.auth.onAuthStateChange((event, session) => {
-  if (event === 'SIGNED_IN' && session?.user) {
-    if (!state.user) loginSuccess(session.user);
-  } else if (event === 'SIGNED_OUT') {
-    state.user = null;
-  } else if (event === 'PASSWORD_RECOVERY') {
-    go('auth');
-    showSuccess('Enter your new password below.');
-  }
+  if (event === 'SIGNED_IN' && session?.user && !state.user) loginSuccess(session.user);
+  else if (event === 'SIGNED_OUT') state.user = null;
 });
 
-// ── Check for existing session on load ──
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
   if (session?.user) loginSuccess(session.user);
