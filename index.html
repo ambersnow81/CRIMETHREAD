@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="description" content="Crimethread — collaborative true crime case board builder">
+<meta name="description" content="Crimethread — true crime case board builder">
 <meta name="theme-color" content="#0d0d0b">
 <title>Crimethread</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
-  --bg:#0d0d0b;--surface:#161610;--surface2:#1e1e16;--surface3:#252518;
+  --bg:#0d0d0b;--surface:#161610;--surface2:#1e1e16;
   --border:#2a2a20;--border2:#353528;
   --red:#c0392b;--red2:#e74c3c;--red-dim:#7a1f14;--red-bg:#1e1010;
   --text:#e8e4d8;--text2:#9a9680;--text3:#555540;
@@ -44,7 +45,6 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .filter-row::-webkit-scrollbar{display:none;}
 .chip{flex-shrink:0;font-size:11px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border2);color:var(--text2);background:transparent;white-space:nowrap;letter-spacing:0.04em;transition:all 0.15s;}
 .chip.active{background:var(--red);color:#f0ece0;border-color:var(--red);}
-.divider{height:0.5px;background:var(--border);margin:0 16px;}
 
 /* CASES */
 .case-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px 16px 16px;}
@@ -60,23 +60,47 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .b-solved{background:#1a2f1a;color:#60a060;}
 .bcnt{font-size:10px;color:var(--text3);}
 
-/* NEWS */
-.ncard{border-bottom:0.5px solid var(--border);padding:14px 16px;cursor:pointer;}
-.ntop{display:flex;gap:12px;}
-.nico2{width:44px;height:44px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--surface2);}
-.ntitle{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:5px;}
-.nmeta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-.nsrc{font-size:11px;color:var(--text3);}
-.tag{font-size:10px;padding:2px 7px;border-radius:2px;}
-.t-nat{background:#3a1a1a;color:#e07070;}
-.t-loc{background:#2a2a1a;color:#c0a050;}
-.t-court{background:#1a2a3a;color:#7099c0;}
-.t-cold{background:#1a2a2a;color:#50a090;}
-.t-ai{background:#2a1a3a;color:#9070c0;}
-.nacts{display:flex;gap:8px;margin-top:10px;}
-.abtn{font-size:11px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border2);background:transparent;color:var(--text2);letter-spacing:0.03em;transition:all 0.15s;}
-.abtn.primary{background:var(--red);color:#f0ece0;border-color:var(--red);}
-.abtn.pinned{background:#3a1a1a;border-color:var(--red-dim);color:#e07070;}
+/* FORMS */
+.fwrap{padding:16px;}
+.flbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:7px;display:block;}
+.finput{width:100%;padding:10px 12px;border:0.5px solid var(--border2);border-radius:4px;font-size:13px;background:var(--surface);color:var(--text);margin-bottom:14px;}
+.finput:focus{outline:none;border-color:var(--red);}
+.btnp{width:100%;padding:12px;background:var(--red);color:#f0ece0;border:none;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-top:8px;transition:background 0.15s;}
+.btnp:hover{background:var(--red2);}
+.btno{width:100%;padding:11px;background:transparent;color:var(--text2);border:0.5px solid var(--border2);border-radius:4px;font-size:13px;letter-spacing:0.04em;margin-top:8px;transition:all 0.15s;}
+.btno:hover{border-color:var(--border);color:var(--text);}
+
+/* AUTH */
+.auth-wrap{padding:40px 24px 24px;}
+.auth-logo{font-family:var(--fft);font-size:34px;color:var(--text);text-align:center;margin-bottom:6px;letter-spacing:1px;}
+.auth-logo em{color:var(--red);font-style:normal;}
+.auth-tag{font-size:12px;color:var(--text3);text-align:center;letter-spacing:0.05em;margin-bottom:32px;}
+.auth-tabs{display:flex;border-bottom:0.5px solid var(--border);margin-bottom:24px;}
+.atab{flex:1;text-align:center;padding:10px 0;font-size:12px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;border:none;background:none;border-bottom:2px solid transparent;transition:all 0.15s;}
+.atab.active{color:var(--red);border-bottom:2px solid var(--red);}
+.auth-err{font-size:12px;color:#e07070;margin-bottom:12px;padding:8px 12px;background:#3a1a1a;border-radius:4px;display:none;}
+.auth-err.show{display:block;}
+.auth-success{font-size:12px;color:#60a060;margin-bottom:12px;padding:8px 12px;background:#1a2f1a;border-radius:4px;display:none;}
+.auth-success.show{display:block;}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;}
+.auth-divider span{font-size:11px;color:var(--text3);}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:0.5px;background:var(--border2);}
+.loading-spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(240,236,224,0.3);border-top-color:#f0ece0;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* PROFILE */
+.prof-hdr{padding:28px 16px 20px;text-align:center;border-bottom:0.5px solid var(--border);}
+.avatar{width:68px;height:68px;border-radius:50%;background:var(--red-dim);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;}
+.prof-name{font-size:18px;font-family:var(--fft);color:var(--text);letter-spacing:1px;}
+.prof-sub{font-size:12px;color:var(--text3);margin-top:4px;}
+.prof-stats{display:flex;justify-content:center;gap:32px;margin-top:18px;}
+.stn{font-size:22px;font-family:var(--fft);color:var(--text);}
+.stl{font-size:10px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:0.07em;}
+.menu-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background 0.1s;}
+.menu-item:hover{background:var(--surface);}
+.menu-ico{font-size:16px;width:20px;text-align:center;}
+.menu-lbl{font-size:13px;color:var(--text);flex:1;}
+.menu-arr{font-size:16px;color:var(--text3);}
 
 /* DETAIL */
 .dheader{padding:12px 16px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface);position:sticky;top:0;z-index:50;}
@@ -103,100 +127,34 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .tl-ev{font-size:13px;color:var(--text);line-height:1.6;}
 .poi-warn{background:var(--red-bg);border:0.5px solid var(--red-dim);border-radius:4px;padding:12px;margin-bottom:12px;}
 .poi-warn p{font-size:12px;color:#c07070;line-height:1.7;}
-.poi-card{background:var(--surface);border:0.5px solid var(--border2);border-radius:4px;padding:12px;margin-bottom:10px;}
-.poi-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
-.poi-name{font-size:14px;color:var(--text);margin-bottom:4px;}
 .add-btn{width:100%;padding:10px;border:0.5px dashed var(--border2);border-radius:4px;background:transparent;font-size:11px;color:var(--text3);display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;letter-spacing:0.05em;transition:all 0.15s;}
 .add-btn:hover{border-color:var(--red);color:var(--red);}
 
-/* FORMS */
-.fwrap{padding:16px;}
-.flbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:7px;display:block;}
-.finput{width:100%;padding:10px 12px;border:0.5px solid var(--border2);border-radius:4px;font-size:13px;background:var(--surface);color:var(--text);margin-bottom:14px;}
-.finput:focus{outline:none;border-color:var(--red);}
-.togrow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:0.5px solid var(--border);}
-.toglbl{font-size:13px;color:var(--text);}
-.togsub{font-size:11px;color:var(--text3);margin-top:2px;}
+/* NEW CASE */
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:0.5px solid var(--border);}
+.tog-lbl{font-size:13px;color:var(--text);}
+.tog-sub{font-size:11px;color:var(--text3);margin-top:2px;}
 .tog{width:42px;height:24px;border-radius:12px;background:var(--border2);position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s;border:none;}
 .tog.on{background:var(--red);}
 .tog-knob{width:18px;height:18px;border-radius:50%;background:#f0ece0;position:absolute;top:3px;left:3px;transition:left 0.15s;pointer-events:none;}
 .tog.on .tog-knob{left:21px;}
-.btnp{width:100%;padding:12px;background:var(--red);color:#f0ece0;border:none;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-top:8px;transition:background 0.15s;}
-.btnp:hover{background:var(--red2);}
-.btno{width:100%;padding:11px;background:transparent;color:var(--text2);border:0.5px solid var(--border2);border-radius:4px;font-size:13px;letter-spacing:0.04em;margin-top:8px;transition:all 0.15s;}
-.btno:hover{border-color:var(--border);color:var(--text);}
-.pro-tag{font-size:10px;background:var(--red);color:#f0ece0;padding:2px 7px;border-radius:10px;margin-left:6px;vertical-align:middle;}
 
-/* AUTH */
-.auth-wrap{padding:40px 24px 24px;}
-.auth-logo{font-family:var(--fft);font-size:34px;color:var(--text);text-align:center;margin-bottom:6px;letter-spacing:1px;}
-.auth-logo em{color:var(--red);font-style:normal;}
-.auth-tag{font-size:12px;color:var(--text3);text-align:center;letter-spacing:0.05em;margin-bottom:32px;}
-.auth-tabs{display:flex;border-bottom:0.5px solid var(--border);margin-bottom:24px;}
-.atab{flex:1;text-align:center;padding:10px 0;font-size:12px;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;border:none;background:none;border-bottom:2px solid transparent;transition:all 0.15s;}
-.atab.active{color:var(--red);border-bottom:2px solid var(--red);}
-.auth-err{font-size:12px;color:#e07070;margin-bottom:12px;padding:8px 12px;background:#3a1a1a;border-radius:4px;display:none;}
-.auth-err.show{display:block;}
-.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;}
-.auth-divider span{font-size:11px;color:var(--text3);}
-.auth-divider::before,.auth-divider::after{content:'';flex:1;height:0.5px;background:var(--border2);}
+/* MY CASES */
+.my-case-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;}
+.my-case-row:hover{background:var(--surface);}
+.my-case-ico{width:40px;height:40px;border-radius:4px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.my-case-name{font-size:14px;color:var(--text);margin-bottom:2px;}
+.my-case-sub{font-size:11px;color:var(--text3);}
+.my-case-bdg{font-size:10px;padding:2px 8px;border-radius:10px;}
+.bdg-pub{background:#1a2f1a;color:#60a060;}
+.bdg-priv{background:var(--surface2);color:var(--text3);}
 
-/* PRICING */
-.price-wrap{padding:20px 16px;}
-.price-hdr{text-align:center;margin-bottom:24px;}
-.price-title{font-family:var(--fft);font-size:24px;color:var(--text);margin-bottom:8px;letter-spacing:1px;}
-.price-sub{font-size:13px;color:var(--text2);line-height:1.7;}
-.billing-toggle{display:flex;background:var(--surface2);border-radius:20px;padding:3px;margin-bottom:20px;border:0.5px solid var(--border2);}
-.bopt{flex:1;text-align:center;padding:7px 0;font-size:12px;border-radius:17px;border:none;background:transparent;color:var(--text3);letter-spacing:0.04em;transition:all 0.2s;}
-.bopt.active{background:var(--red);color:#f0ece0;}
-.plan-card{border:0.5px solid var(--border2);border-radius:8px;padding:20px;margin-bottom:12px;background:var(--surface);}
-.plan-card.featured{border-color:var(--red);background:var(--red-bg);}
-.plan-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:8px;}
-.plan-card.featured .plan-name{color:var(--red);}
-.plan-price{font-size:32px;font-family:var(--fft);color:var(--text);margin-bottom:4px;}
-.plan-price span{font-size:14px;color:var(--text3);font-family:var(--ff);}
-.plan-desc{font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.6;}
-.plan-feats{list-style:none;margin-bottom:16px;}
-.plan-feats li{font-size:12px;color:var(--text2);padding:5px 0;display:flex;gap:8px;border-bottom:0.5px solid var(--border);line-height:1.5;}
-.plan-feats li:last-child{border:none;}
-.fcheck{color:var(--red);flex-shrink:0;}
-.flock{color:var(--text3);flex-shrink:0;}
-.save-bdg{display:inline-block;font-size:10px;background:#1a2f1a;color:#60a060;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;}
-.plan-btn{width:100%;padding:11px;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;border:none;transition:all 0.15s;}
-.fbtn{background:var(--surface2);color:var(--text2);border:0.5px solid var(--border2) !important;border-style:solid;}
-.pbtn{background:var(--red);color:#f0ece0;}
-.pbtn:hover{background:var(--red2);}
-
-/* PAYMENT MODAL */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;align-items:flex-end;justify-content:center;}
-.overlay.open{display:flex;}
-.modal{background:var(--surface);border-radius:12px 12px 0 0;padding:24px;width:100%;max-width:480px;border-top:0.5px solid var(--border2);position:relative;}
-.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--text3);}
-.modal-title{font-family:var(--fft);font-size:20px;color:var(--text);margin-bottom:6px;}
-.modal-sub{font-size:12px;color:var(--text3);margin-bottom:20px;line-height:1.6;}
-.price-summary{background:var(--surface2);border-radius:4px;padding:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;}
-.ps-label{font-size:12px;color:var(--text2);}
-.ps-price{font-size:18px;font-family:var(--fft);color:var(--text);}
-.card-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.secure-note{font-size:11px;color:var(--text3);text-align:center;margin-top:12px;}
-.success-screen{text-align:center;padding:16px 0;}
-.success-ico{font-size:48px;margin-bottom:12px;}
-.success-title{font-family:var(--fft);font-size:22px;color:var(--text);margin-bottom:8px;}
-.success-text{font-size:13px;color:var(--text2);line-height:1.7;}
-
-/* PROFILE */
-.prof-hdr{padding:28px 16px 20px;text-align:center;border-bottom:0.5px solid var(--border);}
-.avatar{width:68px;height:68px;border-radius:50%;background:var(--red-dim);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;}
-.prof-name{font-size:18px;font-family:var(--fft);color:var(--text);letter-spacing:1px;}
-.prof-sub{font-size:12px;color:var(--text3);margin-top:4px;}
-.prof-stats{display:flex;justify-content:center;gap:32px;margin-top:18px;}
-.stn{font-size:22px;font-family:var(--fft);color:var(--text);}
-.stl{font-size:10px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:0.07em;}
-.menu-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background 0.1s;}
-.menu-item:hover{background:var(--surface);}
-.menu-ico{font-size:16px;width:20px;text-align:center;}
-.menu-lbl{font-size:13px;color:var(--text);flex:1;}
-.menu-arr{font-size:16px;color:var(--text3);}
+/* NOTIFICATIONS */
+.nitem{display:flex;gap:12px;padding:13px 16px;border-bottom:0.5px solid var(--border);}
+.ndot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px;}
+.ndot.read{background:var(--border2);}
+.ntext{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
+.ntime{font-size:11px;color:var(--text3);display:block;margin-top:2px;}
 
 /* AD */
 .ad-unit{margin:8px 16px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:4px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;}
@@ -204,35 +162,37 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .ad-txt{font-size:12px;color:var(--text2);}
 .ad-upg{font-size:11px;color:var(--red);border:0.5px solid var(--red-dim);border-radius:20px;padding:3px 10px;background:transparent;}
 
-/* LIMIT */
-.limit-bar{margin:12px 16px;background:#1e1810;border:0.5px solid #4a3810;border-radius:8px;padding:12px;display:flex;gap:10px;align-items:center;}
-.limit-txt{font-size:12px;color:#c0a050;line-height:1.6;flex:1;}
-.limit-btn{font-size:11px;background:var(--red);color:#f0ece0;border:none;border-radius:20px;padding:5px 12px;white-space:nowrap;}
-
-/* NOTIFS */
-.nitem{display:flex;gap:12px;padding:13px 16px;border-bottom:0.5px solid var(--border);}
-.ndot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px;}
-.ndot.read{background:var(--border2);}
-.ntext{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
-.ntime{font-size:11px;color:var(--text3);display:block;margin-top:2px;}
-
-/* AI BANNER */
-.ai-ban{margin:12px 16px;background:#1a1228;border:0.5px solid #4a2a6a;border-radius:8px;padding:12px;display:flex;gap:10px;}
-.ai-txt{font-size:12px;color:#b090e0;line-height:1.7;}
-
 /* FOOTER */
 .footer{padding:16px;border-top:0.5px solid var(--border);margin-top:8px;}
 .footer p{font-size:10px;color:var(--text3);text-align:center;letter-spacing:0.04em;line-height:1.8;}
 .footer-links{display:flex;justify-content:center;gap:16px;margin-top:6px;}
 .footer-links a{font-size:10px;color:var(--text3);}
 
-/* UPGRADE WALL */
-.uwall{background:var(--red-bg);border:0.5px solid var(--red-dim);border-radius:8px;padding:16px;margin:16px;text-align:center;}
-.uwall h3{font-family:var(--fft);font-size:18px;color:var(--text);margin-bottom:6px;}
-.uwall p{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:14px;}
+/* NEWS */
+.ncard{border-bottom:0.5px solid var(--border);padding:14px 16px;cursor:pointer;}
+.ntop{display:flex;gap:12px;}
+.nico2{width:44px;height:44px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--surface2);}
+.ntitle{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:5px;}
+.nmeta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.nsrc{font-size:11px;color:var(--text3);}
+.tag{font-size:10px;padding:2px 7px;border-radius:2px;}
+.t-nat{background:#3a1a1a;color:#e07070;}
+.t-loc{background:#2a2a1a;color:#c0a050;}
+.t-court{background:#1a2a3a;color:#7099c0;}
+.t-cold{background:#1a2a2a;color:#50a090;}
+.t-ai{background:#2a1a3a;color:#9070c0;}
+.nacts{display:flex;gap:8px;margin-top:10px;}
+.abtn{font-size:11px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border2);background:transparent;color:var(--text2);letter-spacing:0.03em;transition:all 0.15s;}
+.abtn.primary{background:var(--red);color:#f0ece0;border-color:var(--red);}
+.abtn.pinned{background:#3a1a1a;border-color:var(--red-dim);color:#e07070;}
+.ai-ban{margin:12px 16px;background:#1a1228;border:0.5px solid #4a2a6a;border-radius:8px;padding:12px;display:flex;gap:10px;}
+.ai-txt{font-size:12px;color:#b090e0;line-height:1.7;}
 
-/* ADD EVIDENCE MODAL */
-.add-modal{background:var(--surface);border-radius:12px 12px 0 0;padding:24px;width:100%;max-width:480px;border-top:0.5px solid var(--border2);position:relative;}
+/* VERIFY EMAIL */
+.verify-screen{padding:40px 24px;text-align:center;}
+.verify-icon{font-size:48px;margin-bottom:16px;}
+.verify-title{font-family:var(--fft);font-size:24px;color:var(--text);margin-bottom:8px;letter-spacing:1px;}
+.verify-text{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:24px;}
 </style>
 </head>
 <body>
@@ -248,14 +208,18 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
       <button class="atab" onclick="authTab('signup',this)">Create account</button>
     </div>
     <div id="auth-err" class="auth-err"></div>
+    <div id="auth-success" class="auth-success"></div>
     <div id="auth-login">
       <label class="flbl">Email</label>
       <input class="finput" type="email" id="l-email" placeholder="your@email.com">
       <label class="flbl">Password</label>
       <input class="finput" type="password" id="l-pass" placeholder="••••••••">
-      <button class="btnp" onclick="doLogin()">Sign in</button>
+      <button class="btnp" id="login-btn" onclick="doLogin()">Sign in</button>
       <div class="auth-divider"><span>or</span></div>
       <button class="btno" onclick="demoLogin()">Continue as guest (demo)</button>
+      <div style="text-align:center;margin-top:12px;">
+        <button onclick="showForgot()" style="background:none;border:none;font-size:12px;color:var(--text3);cursor:pointer;font-family:var(--ff);">Forgot password?</button>
+      </div>
     </div>
     <div id="auth-signup" style="display:none;">
       <label class="flbl">Username</label>
@@ -264,11 +228,30 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
       <input class="finput" type="email" id="s-email" placeholder="your@email.com">
       <label class="flbl">Password</label>
       <input class="finput" type="password" id="s-pass" placeholder="Min. 8 characters">
-      <button class="btnp" onclick="doSignup()">Create account</button>
+      <button class="btnp" id="signup-btn" onclick="doSignup()">Create account</button>
+    </div>
+    <div id="auth-forgot" style="display:none;">
+      <label class="flbl">Email address</label>
+      <input class="finput" type="email" id="f-email" placeholder="your@email.com">
+      <button class="btnp" onclick="doForgot()">Send reset link</button>
+      <button class="btno" onclick="authTab('login', document.querySelector('.atab'))">Back to sign in</button>
     </div>
     <div style="margin-top:24px;text-align:center;font-size:11px;color:var(--text3);line-height:1.7;">
       By continuing you agree to our <a href="#" style="color:var(--text2);">Terms of Service</a> and <a href="#" style="color:var(--text2);">Privacy Policy</a><br>
       <span style="font-size:10px;margin-top:4px;display:block;">© 2026 Crimethread. All rights reserved.</span>
+    </div>
+  </div>
+</div>
+
+<!-- VERIFY EMAIL -->
+<div id="s-verify" class="screen">
+  <div class="verify-screen">
+    <div class="verify-icon">📬</div>
+    <div class="verify-title">Check your email</div>
+    <div class="verify-text">We sent a verification link to your email address. Click the link to activate your account then come back here to sign in.</div>
+    <button class="btnp" onclick="go('auth')">Back to sign in</button>
+    <div style="margin-top:16px;">
+      <button onclick="resendVerification()" style="background:none;border:none;font-size:12px;color:var(--text3);cursor:pointer;font-family:var(--ff);">Resend verification email</button>
     </div>
   </div>
 </div>
@@ -295,63 +278,83 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
   </div>
   <div class="slabel">// trending cases</div>
   <div class="case-grid">
-    <div class="case-card" onclick="goDetail('The Willowbrook Disappearance','🔎','open',43,false)">
+    <div class="case-card" onclick="goDetail('The Zodiac Killer','🔎','cold',56)">
       <div class="cthumb">🔎</div>
-      <div class="cinfo"><div class="ctitle">The Willowbrook Disappearance</div><div class="cmeta"><span class="bdg b-open">Open</span><span class="bcnt">43 pins</span></div></div>
+      <div class="cinfo"><div class="ctitle">The Zodiac Killer</div><div class="cmeta"><span class="bdg b-cold">Cold</span><span class="bcnt">56 yrs</span></div></div>
     </div>
-    <div class="case-card" onclick="goDetail('Route 9 Cold Case 1987','📁','cold',128,false)">
+    <div class="case-card" onclick="goDetail('The Black Dahlia','🌹','cold',77)">
+      <div class="cthumb">🌹</div>
+      <div class="cinfo"><div class="ctitle">The Black Dahlia</div><div class="cmeta"><span class="bdg b-cold">Cold</span><span class="bcnt">77 yrs</span></div></div>
+    </div>
+    <div class="case-card" onclick="goDetail('Route 9 Cold Case 1987','📁','cold',128)">
       <div class="cthumb">📁</div>
       <div class="cinfo"><div class="ctitle">Route 9 Cold Case 1987</div><div class="cmeta"><span class="bdg b-cold">Cold</span><span class="bcnt">128 pins</span></div></div>
     </div>
-    <div class="case-card" onclick="goDetail('Hartley Financial Fraud','⚖️','solved',67,false)">
+    <div class="case-card" onclick="goDetail('Hartley Financial Fraud','⚖️','solved',67)">
       <div class="cthumb">⚖️</div>
       <div class="cinfo"><div class="ctitle">Hartley Financial Fraud</div><div class="cmeta"><span class="bdg b-solved">Charged</span><span class="bcnt">67 pins</span></div></div>
-    </div>
-    <div class="case-card" onclick="goDetail('Lakeside Trail Mystery','🗺️','open',19,false)">
-      <div class="cthumb">🗺️</div>
-      <div class="cinfo"><div class="ctitle">Lakeside Trail Mystery</div><div class="cmeta"><span class="bdg b-open">Open</span><span class="bcnt">19 pins</span></div></div>
     </div>
   </div>
   <div class="footer"><p>© 2026 Crimethread. All rights reserved.</p><div class="footer-links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Contact</a></div></div>
 </div>
 
-<!-- NEWS FEED -->
+<!-- NEWS -->
 <div id="s-news" class="screen">
-  <div class="topbar">
-    <div class="logo">crime<span class="logo-dash"></span><em>thread</em></div>
-    <div class="tright"><button class="ibtn" onclick="go('profile')">👤</button></div>
-  </div>
+  <div class="topbar"><div class="logo">crime<span class="logo-dash"></span><em>thread</em></div><div class="tright"><button class="ibtn" onclick="go('profile')">👤</button></div></div>
   <div class="filter-row">
     <button class="chip active" onclick="fc(this)">All</button>
     <button class="chip" onclick="fc(this)">National</button>
     <button class="chip" onclick="fc(this)">Local</button>
     <button class="chip" onclick="fc(this)">Court</button>
     <button class="chip" onclick="fc(this)">Cold cases</button>
-    <button class="chip" onclick="fc(this)">AI boards</button>
   </div>
-  <div class="ai-ban">
-    <div style="font-size:16px;flex-shrink:0;">🤖</div>
-    <div class="ai-txt" id="ai-cta-txt"><strong style="color:#c0a0f0;">3 new AI case boards</strong> generated from today's news.</div>
-  </div>
-  <div class="slabel">// today — march 31, 2026</div>
+  <div class="ai-ban"><div style="font-size:16px;flex-shrink:0;">🤖</div><div class="ai-txt"><strong style="color:#c0a0f0;">3 new AI case boards</strong> generated from today's news.</div></div>
+  <div class="slabel">// today — april 3, 2026</div>
   <div class="ncard">
-    <div class="ntop"><div class="nico2">🔎</div><div><div class="ntitle">Police reopen 2019 cold case after new DNA evidence identified</div><div class="nmeta"><span class="nsrc">AP News</span><span class="tag t-nat">National</span><span class="tag t-ai">AI board ready</span></div></div></div>
-    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary" onclick="checkAIBoard()">View board</button></div>
+    <div class="ntop"><div class="nico2">🔎</div><div><div class="ntitle">Police reopen 2019 cold case after new DNA evidence identified</div><div class="nmeta"><span class="nsrc">AP News</span><span class="tag t-nat">National</span></div></div></div>
+    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary">View board</button></div>
   </div>
   <div class="ncard">
     <div class="ntop"><div class="nico2">⚖️</div><div><div class="ntitle">Trial begins for former CFO accused of $40M embezzlement scheme</div><div class="nmeta"><span class="nsrc">Reuters</span><span class="tag t-court">Court</span></div></div></div>
-    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn" onclick="createFromNews(this)">+ New board</button></div>
+    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn" onclick="this.textContent='✓ Created';this.style.color='#60a060';">+ New board</button></div>
   </div>
   <div class="ncard">
-    <div class="ntop"><div class="nico2">🗺️</div><div><div class="ntitle">Search called off for missing hiker in Cascade Range — family disputes decision</div><div class="nmeta"><span class="nsrc">Seattle Times</span><span class="tag t-loc">Local</span><span class="tag t-ai">AI board ready</span></div></div></div>
-    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary" onclick="checkAIBoard()">View board</button></div>
+    <div class="ntop"><div class="nico2">📁</div><div><div class="ntitle">NamUs flags 14 unidentified remains matching 1990s missing persons reports</div><div class="nmeta"><span class="nsrc">NamUs / DOJ</span><span class="tag t-cold">Cold case</span></div></div></div>
+    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary">View board</button></div>
   </div>
-  <div class="slabel">// yesterday</div>
-  <div class="ncard">
-    <div class="ntop"><div class="nico2">📁</div><div><div class="ntitle">NamUs flags 14 unidentified remains matching 1990s missing persons reports</div><div class="nmeta"><span class="nsrc">NamUs / DOJ</span><span class="tag t-cold">Cold case</span><span class="tag t-ai">AI board ready</span></div></div></div>
-    <div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary" onclick="checkAIBoard()">View board</button></div>
+  <div class="footer"><p>© 2026 Crimethread. All rights reserved.</p></div>
+</div>
+
+<!-- NEW CASE -->
+<div id="s-new" class="screen">
+  <div class="topbar"><div class="logo">crime<span class="logo-dash"></span><em>thread</em></div></div>
+  <div class="fwrap">
+    <label class="flbl">Case name</label>
+    <input class="finput" type="text" id="new-name" placeholder="e.g. The Maplewood Cold Case">
+    <label class="flbl">Description</label>
+    <input class="finput" type="text" id="new-desc" placeholder="What is this case about?">
+    <label class="flbl">Category</label>
+    <select class="finput" id="new-cat">
+      <option>Missing person</option><option>Unsolved homicide</option><option>Cold case</option><option>White collar / fraud</option><option>Other</option>
+    </select>
+    <div class="tog-row">
+      <div><div class="tog-lbl">Make public</div><div class="tog-sub">Community can view &amp; follow</div></div>
+      <button class="tog" id="tog-pub" onclick="this.classList.toggle('on')"><div class="tog-knob"></div></button>
+    </div>
+    <div class="tog-row">
+      <div><div class="tog-lbl">Allow contributions</div><div class="tog-sub">Others can add evidence cards</div></div>
+      <button class="tog" onclick="this.classList.toggle('on')"><div class="tog-knob"></div></button>
+    </div>
+    <button class="btnp" onclick="createCase()" style="margin-top:16px;" id="create-btn">Create case board</button>
   </div>
-  <div class="footer"><p>© 2026 Crimethread. All rights reserved.</p><div class="footer-links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Contact</a></div></div>
+</div>
+
+<!-- MY CASES -->
+<div id="s-mycases" class="screen">
+  <div class="topbar"><div class="logo">crime<span class="logo-dash"></span><em>thread</em></div><div class="tright"><button class="ibtn" onclick="go('new')">＋</button></div></div>
+  <div class="slabel">// my case boards</div>
+  <div id="my-cases-list"><div style="padding:32px 16px;text-align:center;color:var(--text3);font-size:13px;">Loading your cases...</div></div>
+  <div style="padding:16px;"><button class="btno" onclick="go('new')">+ create new case board</button></div>
 </div>
 
 <!-- CASE DETAIL -->
@@ -375,120 +378,12 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
   <div id="tp-tl" class="tpane">
     <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div><div><div class="tl-date">Mar 10, 2024 · 07:42</div><div class="tl-ev">Last seen leaving trailhead parking lot</div></div></div>
     <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div><div><div class="tl-date">Mar 10, 2024 · 14:15</div><div class="tl-ev">Final cell tower ping 2.3mi west of trail</div></div></div>
-    <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div><div><div class="tl-date">Mar 11, 2024 · 09:00</div><div class="tl-ev">Family reports her missing to Willowbrook PD</div></div></div>
-    <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div></div><div><div class="tl-date">Mar 12–18, 2024</div><div class="tl-ev">Search and rescue — eastern sector only</div></div></div>
+    <div class="tl-item"><div class="tl-line"><div class="tl-dot"></div></div><div><div class="tl-date">Mar 11, 2024 · 09:00</div><div class="tl-ev">Family reports her missing to Willowbrook PD</div></div></div>
     <button class="add-btn" onclick="addTimeline()">+ add timeline event</button>
   </div>
   <div id="tp-poi" class="tpane">
-    <div class="poi-warn"><p>⚖️ Persons of interest may only be referenced by text description or linked to official news sources. Named individuals must be verified public figures already formally charged. No photos of individuals permitted.</p></div>
-    <div class="poi-card"><div class="poi-lbl">// person of interest #1</div><div class="poi-name">Unnamed male, approx. 40–50, grey jacket</div><div style="font-size:12px;color:#7099c0;">Witness statement via <a href="#" style="color:#7099c0;">Local Gazette ↗</a></div></div>
+    <div class="poi-warn"><p>⚖️ Persons of interest may only be referenced by text description or linked to official news sources. No photos of individuals permitted.</p></div>
     <button class="add-btn" onclick="addPOI()">+ add person of interest</button>
-  </div>
-</div>
-
-<!-- NEW CASE -->
-<div id="s-new" class="screen">
-  <div class="topbar"><div class="logo">crime<span class="logo-dash"></span><em>thread</em></div></div>
-  <div class="limit-bar" id="limit-bar" style="display:none;">
-    <div class="limit-txt">⚠️ You've used 2 of 3 free boards. <strong>Upgrade to Pro</strong> for unlimited.</div>
-    <button class="limit-btn" onclick="go('pricing')">Upgrade</button>
-  </div>
-  <div class="fwrap">
-    <label class="flbl">Case name</label>
-    <input class="finput" type="text" id="new-name" placeholder="e.g. The Maplewood Cold Case">
-    <label class="flbl">Description</label>
-    <input class="finput" type="text" id="new-desc" placeholder="What is this case about?">
-    <label class="flbl">Category</label>
-    <select class="finput" id="new-cat">
-      <option>Missing person</option><option>Unsolved homicide</option><option>Cold case</option><option>White collar / fraud</option><option>Other</option>
-    </select>
-    <div class="togrow">
-      <div><div class="toglbl">Make public</div><div class="togsub">Community can view &amp; follow</div></div>
-      <button class="tog" id="tog-pub" onclick="this.classList.toggle('on')"><div class="tog-knob"></div></button>
-    </div>
-    <div class="togrow">
-      <div><div class="toglbl">Private board <span class="pro-tag">Pro</span></div><div class="togsub">Only visible to you</div></div>
-      <button class="tog" id="tog-priv" onclick="togglePrivate(this)"><div class="tog-knob"></div></button>
-    </div>
-    <div class="togrow">
-      <div><div class="toglbl">Allow contributions</div><div class="togsub">Others can add evidence cards</div></div>
-      <button class="tog" id="tog-contrib" onclick="this.classList.toggle('on')"><div class="tog-knob"></div></button>
-    </div>
-    <div class="togrow">
-      <div><div class="toglbl">Invite only <span class="pro-tag">Pro</span></div><div class="togsub">Only invited users can contribute</div></div>
-      <button class="tog" id="tog-invite" onclick="togglePro(this)"><div class="tog-knob"></div></button>
-    </div>
-    <button class="btnp" onclick="createCase()" style="margin-top:16px;">Create case board</button>
-  </div>
-</div>
-
-<!-- MY CASES -->
-<div id="s-mycases" class="screen">
-  <div class="topbar"><div class="logo">crime<span class="logo-dash"></span><em>thread</em></div><div class="tright"><button class="ibtn" onclick="go('new')">＋</button></div></div>
-  <div class="slabel">// my case boards</div>
-  <div id="my-cases-list">
-    <div class="menu-item" onclick="goDetail('Willowbrook Disappearance','🔎','open',43,true)">
-      <div class="menu-ico">🔎</div>
-      <div style="flex:1"><div class="menu-lbl">Willowbrook Disappearance</div><div style="font-size:11px;color:var(--text3);margin-top:2px;">43 pins · public</div></div>
-      <span style="font-size:10px;background:#1a2f1a;color:#60a060;padding:2px 8px;border-radius:10px;">Public</span>
-    </div>
-    <div class="menu-item" onclick="goDetail('My Personal Research','📝','open',7,true)">
-      <div class="menu-ico">📝</div>
-      <div style="flex:1"><div class="menu-lbl">My Personal Research</div><div style="font-size:11px;color:var(--text3);margin-top:2px;">7 pins · private</div></div>
-      <span style="font-size:10px;background:var(--surface2);color:var(--text3);padding:2px 8px;border-radius:10px;">Private</span>
-    </div>
-  </div>
-  <div style="padding:16px;">
-    <button class="btno" onclick="go('new')">+ create new case board</button>
-  </div>
-</div>
-
-<!-- PRICING -->
-<div id="s-pricing" class="screen">
-  <div class="topbar">
-    <button class="back" onclick="goBack()" style="font-size:22px;color:var(--text2);background:none;border:none;padding:0 2px;">‹</button>
-    <div class="logo" style="flex:1;justify-content:center;">crime<span class="logo-dash"></span><em>thread</em> pro</div>
-    <div style="width:32px;"></div>
-  </div>
-  <div class="price-wrap">
-    <div class="price-hdr">
-      <div class="price-title">Unlock Crimethread Pro</div>
-      <div class="price-sub">Build unlimited case boards, go private, use AI, and collaborate with other investigators.</div>
-    </div>
-    <div class="billing-toggle">
-      <button class="bopt active" id="b-monthly" onclick="setBilling('monthly',this)">Monthly</button>
-      <button class="bopt" id="b-annual" onclick="setBilling('annual',this)">Annual <span class="save-bdg">Save 20%</span></button>
-    </div>
-    <div class="plan-card">
-      <div class="plan-name">Free</div>
-      <div class="plan-price">$0<span>/forever</span></div>
-      <div class="plan-desc">Get started with the basics.</div>
-      <ul class="plan-feats">
-        <li><span class="fcheck">✓</span>3 case boards</li>
-        <li><span class="fcheck">✓</span>Public boards only</li>
-        <li><span class="fcheck">✓</span>Evidence &amp; timeline builder</li>
-        <li><span class="flock">✗</span><span style="color:var(--text3);">Private boards</span></li>
-        <li><span class="flock">✗</span><span style="color:var(--text3);">AI case board builder</span></li>
-        <li><span class="flock">✗</span><span style="color:var(--text3);">Invite collaborators</span></li>
-        <li><span class="flock">✗</span><span style="color:var(--text3);">Ad-free experience</span></li>
-      </ul>
-      <button class="plan-btn fbtn" onclick="go('explore')">Current plan</button>
-    </div>
-    <div class="plan-card featured">
-      <div class="plan-name">Pro</div>
-      <div class="plan-price" id="pro-price">$4.99<span id="pro-period">/month</span></div>
-      <div class="plan-desc" id="pro-desc">Billed monthly. Cancel anytime.</div>
-      <ul class="plan-feats">
-        <li><span class="fcheck">✓</span>Unlimited case boards</li>
-        <li><span class="fcheck">✓</span>Private &amp; public boards</li>
-        <li><span class="fcheck">✓</span>Evidence &amp; timeline builder</li>
-        <li><span class="fcheck">✓</span>AI case board builder</li>
-        <li><span class="fcheck">✓</span>Invite collaborators</li>
-        <li><span class="fcheck">✓</span>Ad-free experience</li>
-        <li><span class="fcheck">✓</span>Priority support</li>
-      </ul>
-      <button class="plan-btn pbtn" onclick="openPayment()">Upgrade to Pro</button>
-    </div>
   </div>
 </div>
 
@@ -497,60 +392,30 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
   <div class="topbar"><div class="logo">crime<span class="logo-dash"></span><em>thread</em></div></div>
   <div class="prof-hdr">
     <div class="avatar">🔍</div>
-    <div class="prof-name" id="prof-name">TrueCrime_Palone</div>
-    <div class="prof-sub" id="prof-plan">Free plan · member since 2026</div>
+    <div class="prof-name" id="prof-name">Loading...</div>
+    <div class="prof-sub" id="prof-email">Loading...</div>
     <div class="prof-stats">
-      <div><div class="stn">2</div><div class="stl">Cases</div></div>
-      <div><div class="stn">50</div><div class="stl">Pins</div></div>
-      <div><div class="stn">12</div><div class="stl">Followers</div></div>
+      <div><div class="stn" id="prof-cases">0</div><div class="stl">Cases</div></div>
+      <div><div class="stn">0</div><div class="stl">Pins</div></div>
+      <div><div class="stn">0</div><div class="stl">Followers</div></div>
     </div>
   </div>
   <div style="padding:8px 0;">
-    <div class="menu-item" onclick="go('pricing')">
-      <div class="menu-ico">⭐</div>
-      <div class="menu-lbl">Upgrade to Pro — $4.99/mo</div>
-      <div class="menu-arr">›</div>
-    </div>
-    <div class="menu-item" onclick="go('mycases')">
-      <div class="menu-ico">📁</div>
-      <div class="menu-lbl">My case boards</div>
-      <div class="menu-arr">›</div>
-    </div>
-    <div class="menu-item">
-      <div class="menu-ico">🔔</div>
-      <div class="menu-lbl">Notification settings</div>
-      <div class="menu-arr">›</div>
-    </div>
-    <div class="menu-item">
-      <div class="menu-ico">⚖️</div>
-      <div class="menu-lbl">Terms of Service</div>
-      <div class="menu-arr">›</div>
-    </div>
-    <div class="menu-item">
-      <div class="menu-ico">🔒</div>
-      <div class="menu-lbl">Privacy Policy</div>
-      <div class="menu-arr">›</div>
-    </div>
-    <div class="menu-item" onclick="doLogout()">
-      <div class="menu-ico">🚪</div>
-      <div class="menu-lbl" style="color:#e07070;">Sign out</div>
-      <div class="menu-arr">›</div>
-    </div>
+    <div class="menu-item" onclick="go('mycases')"><div class="menu-ico">📁</div><div class="menu-lbl">My case boards</div><div class="menu-arr">›</div></div>
+    <div class="menu-item"><div class="menu-ico">🔔</div><div class="menu-lbl">Notification settings</div><div class="menu-arr">›</div></div>
+    <div class="menu-item"><div class="menu-ico">⚖️</div><div class="menu-lbl">Terms of Service</div><div class="menu-arr">›</div></div>
+    <div class="menu-item"><div class="menu-ico">🔒</div><div class="menu-lbl">Privacy Policy</div><div class="menu-arr">›</div></div>
+    <div class="menu-item" onclick="doLogout()"><div class="menu-ico">🚪</div><div class="menu-lbl" style="color:#e07070;">Sign out</div><div class="menu-arr">›</div></div>
   </div>
-  <div class="footer"><p>© 2026 Crimethread. All rights reserved.<br>Crimethread is a trademark of Crimethread App Ltd.</p><div class="footer-links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Contact</a></div></div>
+  <div class="footer"><p>© 2026 Crimethread. All rights reserved.<br>"Crimethread" is a trademark of Crimethread Ltd.</p><div class="footer-links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Contact</a></div></div>
 </div>
 
 <!-- NOTIFICATIONS -->
 <div id="s-notifs" class="screen">
-  <div class="topbar">
-    <button class="back" onclick="goBack()" style="font-size:22px;color:var(--text2);background:none;border:none;padding:0 2px;">‹</button>
-    <div style="font-family:var(--fft);font-size:16px;color:var(--text);letter-spacing:0.5px;flex:1;padding-left:8px;">Notifications</div>
-  </div>
+  <div class="topbar"><button class="back" onclick="goBack()" style="font-size:22px;color:var(--text2);background:none;border:none;padding:0 2px;">‹</button><div style="font-family:var(--fft);font-size:16px;color:var(--text);letter-spacing:0.5px;flex:1;padding-left:8px;">Notifications</div></div>
   <div class="nitem"><div class="ndot"></div><div class="ntext">New article matches your followed case <strong>Willowbrook Disappearance</strong><span class="ntime">Local Gazette · 1h ago</span></div></div>
   <div class="nitem"><div class="ndot"></div><div class="ntext">Court update on <strong>Hartley Financial Fraud</strong> — sentencing confirmed<span class="ntime">CourtListener · 3h ago</span></div></div>
-  <div class="nitem"><div class="ndot"></div><div class="ntext">AI generated a new case board from breaking news you may like<span class="ntime">2h ago</span></div></div>
-  <div class="nitem"><div class="ndot read"></div><div class="ntext">Someone followed your <strong>Willowbrook Disappearance</strong> board<span class="ntime">Yesterday</span></div></div>
-  <div class="nitem"><div class="ndot read"></div><div class="ntext">NamUs cold case match may relate to <strong>Route 9 Cold Case 1987</strong><span class="ntime">Yesterday</span></div></div>
+  <div class="nitem"><div class="ndot read"></div><div class="ntext">Someone followed your case board<span class="ntime">Yesterday</span></div></div>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -562,57 +427,14 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
   <button class="nbtn" id="nav-profile" onclick="go('profile')"><span class="nico">👤</span>Profile</button>
 </div>
 
-<!-- PAYMENT MODAL -->
-<div class="overlay" id="pay-overlay">
-  <div class="modal" id="pay-modal">
-    <button class="modal-close" onclick="closePayment()">✕</button>
-    <div id="pay-form">
-      <div class="modal-title">Upgrade to Pro</div>
-      <div class="modal-sub">Unlock unlimited boards, private cases, AI builder, and more.</div>
-      <div class="price-summary">
-        <span class="ps-label" id="pay-plan-label">Crimethread Pro — Monthly</span>
-        <span class="ps-price" id="pay-plan-price">$4.99/mo</span>
-      </div>
-      <label class="flbl">Name on card</label>
-      <input class="finput" type="text" id="card-name" placeholder="Jane Smith">
-      <label class="flbl">Card number</label>
-      <input class="finput" type="text" id="card-num" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div>
-          <label class="flbl">Expiry</label>
-          <input class="finput" type="text" id="card-exp" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)">
-        </div>
-        <div>
-          <label class="flbl">CVC</label>
-          <input class="finput" type="text" id="card-cvc" placeholder="123" maxlength="3">
-        </div>
-      </div>
-      <button class="btnp" onclick="processPayment()" id="pay-btn">Pay & Upgrade to Pro</button>
-      <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:12px;">🔒 Secured by Stripe · Cancel anytime</div>
-    </div>
-    <div id="pay-success" style="display:none;">
-      <div style="text-align:center;padding:16px 0;">
-        <div style="font-size:48px;margin-bottom:12px;">✅</div>
-        <div style="font-family:var(--fft);font-size:22px;color:var(--text);margin-bottom:8px;letter-spacing:1px;">Welcome to Pro!</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px;">You now have unlimited case boards, private boards, AI case builder, and no ads.</div>
-        <button class="btnp" onclick="activatePro()">Start investigating</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ADD EVIDENCE MODAL -->
-<div class="overlay" id="ev-overlay">
-  <div class="modal">
-    <button class="modal-close" onclick="closeEv()">✕</button>
-    <div class="modal-title" style="margin-bottom:16px;">Add evidence card</div>
+<div id="ev-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;align-items:flex-end;justify-content:center;">
+  <div style="background:var(--surface);border-radius:12px 12px 0 0;padding:24px;width:100%;max-width:480px;border-top:0.5px solid var(--border2);position:relative;">
+    <button onclick="closeEv()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--text3);">✕</button>
+    <div style="font-family:var(--fft);font-size:20px;color:var(--text);margin-bottom:16px;">Add evidence card</div>
     <label class="flbl">Type</label>
-    <select class="finput" id="ev-type">
-      <option value="news">News article</option>
-      <option value="doc">Public record / document</option>
-      <option value="note">Analysis note</option>
-    </select>
-    <label class="flbl">Title / description</label>
+    <select class="finput" id="ev-type"><option value="news">News article</option><option value="doc">Public record</option><option value="note">Analysis note</option></select>
+    <label class="flbl">Title</label>
     <input class="finput" type="text" id="ev-title" placeholder="e.g. Witness statement published in...">
     <label class="flbl">Source URL (news &amp; documents only)</label>
     <input class="finput" type="url" id="ev-url" placeholder="https://...">
@@ -622,93 +444,201 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 </div>
 
 <script>
-// ── State ──
-const state = {
-  user: null,
-  isPro: false,
-  billing: 'monthly',
-  currentCase: null,
-  prevScreen: 'explore',
-  caseCount: 2
-};
+// ── Supabase Setup ──
+const SUPABASE_URL = 'https://bwoxhjxudmfzrzlglnzq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_rgJ2BTHkl0mf6qRo0MNZxA_8kjg8oeV';
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ── Auth ──
+// ── State ──
+const state = { user: null, prevScreen: 'explore', currentCase: null, pendingEmail: null };
+
+// ── Auth Functions ──
 function authTab(t, el) {
   document.querySelectorAll('.atab').forEach(x => x.classList.remove('active'));
-  el.classList.add('active');
+  if (el) el.classList.add('active');
   document.getElementById('auth-login').style.display = t === 'login' ? 'block' : 'none';
   document.getElementById('auth-signup').style.display = t === 'signup' ? 'block' : 'none';
+  document.getElementById('auth-forgot').style.display = t === 'forgot' ? 'block' : 'none';
+  clearMessages();
+}
+
+function showForgot() {
+  document.querySelectorAll('.atab').forEach(x => x.classList.remove('active'));
+  document.getElementById('auth-login').style.display = 'none';
+  document.getElementById('auth-signup').style.display = 'none';
+  document.getElementById('auth-forgot').style.display = 'block';
+  clearMessages();
 }
 
 function showErr(msg) {
   const e = document.getElementById('auth-err');
   e.textContent = msg; e.classList.add('show');
-  setTimeout(() => e.classList.remove('show'), 4000);
 }
 
-function doLogin() {
-  const email = document.getElementById('l-email').value;
+function showSuccess(msg) {
+  const s = document.getElementById('auth-success');
+  s.textContent = msg; s.classList.add('show');
+}
+
+function clearMessages() {
+  document.getElementById('auth-err').classList.remove('show');
+  document.getElementById('auth-success').classList.remove('show');
+}
+
+function setLoading(btnId, loading) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading ? '<span class="loading-spinner"></span>Please wait...' : btn.getAttribute('data-text') || btn.textContent;
+}
+
+async function doLogin() {
+  const email = document.getElementById('l-email').value.trim();
   const pass = document.getElementById('l-pass').value;
   if (!email || !pass) { showErr('Please enter your email and password.'); return; }
-  // In production: POST to /api/login with Supabase
-  loginSuccess(email.split('@')[0]);
+  clearMessages();
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span>Signing in...';
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  btn.disabled = false;
+  btn.textContent = 'Sign in';
+  if (error) { showErr(error.message); return; }
+  loginSuccess(data.user);
 }
 
-function doSignup() {
-  const user = document.getElementById('s-user').value;
-  const email = document.getElementById('s-email').value;
+async function doSignup() {
+  const username = document.getElementById('s-user').value.trim();
+  const email = document.getElementById('s-email').value.trim();
   const pass = document.getElementById('s-pass').value;
-  if (!user || !email || !pass) { showErr('Please fill in all fields.'); return; }
+  if (!username || !email || !pass) { showErr('Please fill in all fields.'); return; }
   if (pass.length < 8) { showErr('Password must be at least 8 characters.'); return; }
-  // In production: POST to /api/signup with Supabase
-  loginSuccess(user);
+  if (username.length < 3) { showErr('Username must be at least 3 characters.'); return; }
+  clearMessages();
+  const btn = document.getElementById('signup-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span>Creating account...';
+  const { data, error } = await sb.auth.signUp({
+    email, password: pass,
+    options: { data: { username, display_name: username } }
+  });
+  btn.disabled = false;
+  btn.textContent = 'Create account';
+  if (error) { showErr(error.message); return; }
+  if (data.user && !data.user.confirmed_at) {
+    state.pendingEmail = email;
+    go('verify');
+  } else if (data.user) {
+    loginSuccess(data.user);
+  }
 }
 
-function demoLogin() { loginSuccess('TrueCrime_Guest'); }
+async function doForgot() {
+  const email = document.getElementById('f-email').value.trim();
+  if (!email) { showErr('Please enter your email address.'); return; }
+  clearMessages();
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin
+  });
+  if (error) { showErr(error.message); return; }
+  showSuccess('Password reset link sent! Check your email.');
+}
 
-function loginSuccess(username) {
-  state.user = username;
-  document.getElementById('prof-name').textContent = username;
-  document.getElementById('s-auth').classList.remove('active');
+async function resendVerification() {
+  if (!state.pendingEmail) return;
+  const { error } = await sb.auth.resend({ type: 'signup', email: state.pendingEmail });
+  if (!error) alert('Verification email resent!');
+}
+
+function demoLogin() {
+  state.user = { email: 'guest@demo.com', user_metadata: { username: 'Guest_Investigator', display_name: 'Guest_Investigator' } };
+  loginSuccess(state.user);
+}
+
+function loginSuccess(user) {
+  state.user = user;
+  updateProfile(user);
+  loadMyCases();
   document.getElementById('bnav').style.display = 'flex';
   go('explore');
 }
 
-function doLogout() {
-  state.user = null; state.isPro = false;
+async function doLogout() {
+  await sb.auth.signOut();
+  state.user = null;
   document.getElementById('bnav').style.display = 'none';
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('s-auth').classList.add('active');
+  document.getElementById('l-email').value = '';
+  document.getElementById('l-pass').value = '';
+}
+
+function updateProfile(user) {
+  const username = user?.user_metadata?.username || user?.user_metadata?.display_name || user?.email?.split('@')[0] || 'Investigator';
+  document.getElementById('prof-name').textContent = username;
+  document.getElementById('prof-email').textContent = user?.email || 'Guest account';
+}
+
+// ── My Cases ──
+async function loadMyCases() {
+  if (!state.user || state.user.email === 'guest@demo.com') {
+    document.getElementById('my-cases-list').innerHTML = `
+      <div class="my-case-row" onclick="goDetail('Zodiac Killer Demo','🔎','cold',43)">
+        <div class="my-case-ico">🔎</div>
+        <div style="flex:1"><div class="my-case-name">Zodiac Killer Demo</div><div class="my-case-sub">Demo board · public</div></div>
+        <span class="my-case-bdg bdg-pub">Public</span>
+      </div>
+      <div style="padding:16px;text-align:center;font-size:12px;color:var(--text3);">Sign in to save your own case boards</div>`;
+    return;
+  }
+  document.getElementById('prof-cases').textContent = '0';
+  document.getElementById('my-cases-list').innerHTML = `<div style="padding:32px 16px;text-align:center;color:var(--text3);font-size:13px;">No case boards yet.<br>Create your first one!</div>`;
+}
+
+async function createCase() {
+  const name = document.getElementById('new-name').value.trim();
+  if (!name) { alert('Please enter a case name.'); return; }
+  if (!state.user || state.user.email === 'guest@demo.com') {
+    alert('Please sign in to create and save case boards.');
+    go('auth'); return;
+  }
+  const btn = document.getElementById('create-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span>Creating...';
+  const isPublic = document.getElementById('tog-pub').classList.contains('on');
+  const desc = document.getElementById('new-desc').value.trim();
+  const cat = document.getElementById('new-cat').value;
+  goDetail(name, '📁', 'open', 0);
+  btn.disabled = false;
+  btn.textContent = 'Create case board';
+  document.getElementById('new-name').value = '';
+  document.getElementById('new-desc').value = '';
 }
 
 // ── Navigation ──
 function go(screen) {
   const prev = document.querySelector('.screen.active');
-  if (prev && prev.id !== 's-auth') state.prevScreen = prev.id.replace('s-','');
+  if (prev && prev.id !== 's-auth' && prev.id !== 's-verify') state.prevScreen = prev.id.replace('s-','');
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nbtn').forEach(n => n.classList.remove('active'));
   document.getElementById('s-' + screen).classList.add('active');
   const nb = document.getElementById('nav-' + screen);
   if (nb) nb.classList.add('active');
   window.scrollTo(0, 0);
-  // Update UI based on pro status
-  if (screen === 'new') updateNewScreen();
-  if (screen === 'explore') updateExplore();
-  if (screen === 'news') updateNews();
-  if (screen === 'profile') updateProfile();
+  if (screen === 'mycases') loadMyCases();
+  if (screen === 'profile' && state.user) updateProfile(state.user);
 }
 
 function goBack() { go(state.prevScreen || 'explore'); }
 
-function goDetail(title, icon, status, pins, isOwn) {
-  state.currentCase = { title, icon, status, pins, isOwn };
+function goDetail(title, icon, status, pins) {
+  state.currentCase = { title, icon, status, pins };
   document.getElementById('d-title').textContent = title;
-  document.getElementById('d-priv').textContent = isOwn ? '🔒 Private' : '🌐 Public';
   state.prevScreen = document.querySelector('.screen.active').id.replace('s-','');
   go('detail');
 }
 
-// ── Tabs ──
 function showTab(name, el) {
   document.querySelectorAll('.tpane').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -716,58 +646,19 @@ function showTab(name, el) {
   el.classList.add('active');
 }
 
-// ── Filter chips ──
 function fc(el) {
   el.closest('.filter-row').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
 }
 
-// ── News actions ──
 function pinNews(btn) {
   btn.classList.toggle('pinned');
   btn.textContent = btn.classList.contains('pinned') ? '📌 Pinned' : '📌 Pin';
 }
 
-function checkAIBoard() {
-  if (!state.isPro) { go('pricing'); return; }
-  go('detail');
-}
+function addEvidence() { document.getElementById('ev-overlay').style.display = 'flex'; }
+function closeEv() { document.getElementById('ev-overlay').style.display = 'none'; }
 
-function createFromNews(btn) {
-  if (state.caseCount >= 3 && !state.isPro) { go('pricing'); return; }
-  btn.textContent = '✓ Board created';
-  btn.style.color = '#60a060';
-  btn.style.borderColor = '#3a5a3a';
-  state.caseCount++;
-}
-
-// ── New case ──
-function updateNewScreen() {
-  document.getElementById('limit-bar').style.display = (!state.isPro && state.caseCount >= 2) ? 'flex' : 'none';
-}
-
-function togglePrivate(btn) {
-  if (!state.isPro) { go('pricing'); return; }
-  btn.classList.toggle('on');
-}
-
-function togglePro(btn) {
-  if (!state.isPro) { go('pricing'); return; }
-  btn.classList.toggle('on');
-}
-
-function createCase() {
-  const name = document.getElementById('new-name').value.trim();
-  if (!name) { alert('Please enter a case name.'); return; }
-  if (state.caseCount >= 3 && !state.isPro) { go('pricing'); return; }
-  state.caseCount++;
-  // In production: POST to /api/cases with Supabase
-  goDetail(name, '📁', 'open', 0, true);
-}
-
-// ── Evidence ──
-function addEvidence() { document.getElementById('ev-overlay').classList.add('open'); }
-function closeEv() { document.getElementById('ev-overlay').classList.remove('open'); }
 function saveEvidence() {
   const type = document.getElementById('ev-type').value;
   const title = document.getElementById('ev-title').value.trim();
@@ -786,7 +677,7 @@ function saveEvidence() {
 }
 
 function addTimeline() {
-  const date = prompt('Event date (e.g. Mar 12, 2024 · 09:00):');
+  const date = prompt('Event date:');
   const event = prompt('What happened?');
   if (!date || !event) return;
   const pane = document.getElementById('tp-tl');
@@ -797,109 +688,32 @@ function addTimeline() {
 }
 
 function addPOI() {
-  const desc = prompt('Text description only (e.g. Unnamed male, approx. 40-50, grey jacket):');
+  const desc = prompt('Text description only (e.g. Unnamed male, approx. 40-50):');
   if (!desc) return;
   const pane = document.getElementById('tp-poi');
-  const count = pane.querySelectorAll('.poi-card').length + 1;
   const card = document.createElement('div');
-  card.className = 'poi-card';
-  card.innerHTML = `<div class="poi-lbl">// person of interest #${count}</div><div class="poi-name">${desc}</div>`;
+  card.className = 'evcard';
+  card.innerHTML = `<div class="evtype gt">// person of interest</div><div class="evtitle">${desc}</div>`;
   pane.insertBefore(card, pane.querySelector('.add-btn'));
 }
 
-// ── Pricing ──
-function setBilling(type, el) {
-  state.billing = type;
-  document.querySelectorAll('.bopt').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  if (type === 'annual') {
-    document.getElementById('pro-price').innerHTML = '$47.99<span id="pro-period">/year</span>';
-    document.getElementById('pro-desc').textContent = 'Billed annually. That\'s $4.00/mo. Cancel anytime.';
-  } else {
-    document.getElementById('pro-price').innerHTML = '$4.99<span id="pro-period">/month</span>';
-    document.getElementById('pro-desc').textContent = 'Billed monthly. Cancel anytime.';
+// ── Auth State Listener ──
+sb.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN' && session?.user) {
+    if (!state.user) loginSuccess(session.user);
+  } else if (event === 'SIGNED_OUT') {
+    state.user = null;
+  } else if (event === 'PASSWORD_RECOVERY') {
+    go('auth');
+    showSuccess('Enter your new password below.');
   }
-}
-
-// ── Payment ──
-function openPayment() {
-  const isAnnual = state.billing === 'annual';
-  document.getElementById('pay-plan-label').textContent = `Crimethread Pro — ${isAnnual ? 'Annual' : 'Monthly'}`;
-  document.getElementById('pay-plan-price').textContent = isAnnual ? '$47.99/yr' : '$4.99/mo';
-  document.getElementById('pay-btn').textContent = `Pay ${isAnnual ? '$47.99' : '$4.99'} & Upgrade`;
-  document.getElementById('pay-form').style.display = 'block';
-  document.getElementById('pay-success').style.display = 'none';
-  document.getElementById('pay-overlay').classList.add('open');
-}
-
-function closePayment() {
-  document.getElementById('pay-overlay').classList.remove('open');
-}
-
-function formatCard(el) {
-  let v = el.value.replace(/\D/g,'').substring(0,16);
-  el.value = v.replace(/(.{4})/g,'$1 ').trim();
-}
-
-function formatExpiry(el) {
-  let v = el.value.replace(/\D/g,'').substring(0,4);
-  if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2);
-  el.value = v;
-}
-
-function processPayment() {
-  const name = document.getElementById('card-name').value.trim();
-  const num = document.getElementById('card-num').value.replace(/\s/g,'');
-  const exp = document.getElementById('card-exp').value;
-  const cvc = document.getElementById('card-cvc').value;
-  if (!name || num.length < 16 || !exp || cvc.length < 3) {
-    alert('Please fill in all payment details.');
-    return;
-  }
-  const btn = document.getElementById('pay-btn');
-  btn.textContent = 'Processing...';
-  btn.disabled = true;
-  // In production: POST to /api/create-subscription with Stripe
-  setTimeout(() => {
-    document.getElementById('pay-form').style.display = 'none';
-    document.getElementById('pay-success').style.display = 'block';
-  }, 1800);
-}
-
-function activatePro() {
-  state.isPro = true;
-  closePayment();
-  updateExplore();
-  updateProfile();
-  go('explore');
-}
-
-// ── UI updates based on pro status ──
-function updateExplore() {
-  document.getElementById('explore-ad').style.display = state.isPro ? 'none' : 'flex';
-}
-
-function updateNews() {
-  const cta = document.getElementById('ai-cta-txt');
-  if (!state.isPro) {
-    cta.innerHTML = '<strong style="color:#c0a0f0;">3 new AI case boards</strong> generated from today\'s news. <button onclick="go(\'pricing\')" style="background:none;border:none;color:#9070c0;text-decoration:underline;cursor:pointer;font-family:var(--ff);font-size:12px;">Upgrade to Pro to view ↗</button>';
-  } else {
-    cta.innerHTML = '<strong style="color:#c0a0f0;">3 new AI case boards</strong> generated from today\'s news. Tap "View board" to explore.';
-  }
-}
-
-function updateProfile() {
-  document.getElementById('prof-plan').textContent = state.isPro
-    ? '⭐ Pro member · since 2026'
-    : 'Free plan · member since 2026';
-  document.getElementById('prof-name').textContent = state.user || 'Investigator';
-}
-
-// ── Init ──
-document.addEventListener('DOMContentLoaded', () => {
-  // PWA install prompt suppression for clean UX
-  window.addEventListener('beforeinstallprompt', e => e.preventDefault());
 });
+
+// ── Check for existing session on load ──
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session?.user) loginSuccess(session.user);
+})();
 </script>
 </body>
 </html>
