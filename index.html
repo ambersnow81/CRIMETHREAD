@@ -751,12 +751,23 @@ function go(screen) {
 }
 
 function goAuth(tab) {
-  go('auth');
-  setTimeout(() => {
-    const tabs = document.querySelectorAll('.atab');
-    if (tab === 'signup') authTab('signup', tabs[1]);
-    else authTab('login', tabs[0]);
-  }, 50);
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-auth').classList.add('active');
+  clearMessages();
+  const tabs = document.querySelectorAll('.atab');
+  if (tab === 'signup') {
+    tabs.forEach(t => t.classList.remove('active'));
+    tabs[1].classList.add('active');
+    document.getElementById('auth-login').style.display = 'none';
+    document.getElementById('auth-signup').style.display = 'block';
+    document.getElementById('auth-forgot').style.display = 'none';
+  } else {
+    tabs.forEach(t => t.classList.remove('active'));
+    tabs[0].classList.add('active');
+    document.getElementById('auth-login').style.display = 'block';
+    document.getElementById('auth-signup').style.display = 'none';
+    document.getElementById('auth-forgot').style.display = 'none';
+  }
 }
 
 function goBack() { go(state.prevScreen || 'explore'); }
