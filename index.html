@@ -23,14 +23,18 @@ html,body{height:100%;background:var(--bg);font-family:var(--ff);color:var(--tex
 button{cursor:pointer;font-family:var(--ff);}
 input,select,textarea{font-family:var(--ff);color:var(--text);}
 #app{max-width:100%;margin:0 auto;min-height:100vh;background:var(--bg);}
-@media(min-width:600px){#app{max-width:480px;border-left:0.5px solid var(--border);border-right:0.5px solid var(--border);}}
+@media(min-width:600px){#app{max-width:480px;margin:0 auto;border-left:0.5px solid var(--border);border-right:0.5px solid var(--border);}}
 @media(min-width:1024px){
-  #app{max-width:100%;display:grid;grid-template-columns:240px 1fr;grid-template-rows:auto;}
+  body{background:#080808;}
+  #app{max-width:100%;display:grid;grid-template-columns:220px 1fr;margin:0;}
   .bnav{display:none !important;}
   #sidebar{display:flex !important;}
-  .screen.active{grid-column:2;}
+  .screen.active{grid-column:2;max-width:680px;border-right:0.5px solid var(--border);}
+  #s-landing{grid-column:1/-1;max-width:100%;}
+  #s-auth{grid-column:1/-1;max-width:100%;}
+  #s-verify{grid-column:1/-1;max-width:100%;}
 }
-#sidebar{display:none;flex-direction:column;width:240px;background:var(--surface);border-right:0.5px solid var(--border);min-height:100vh;padding:20px 0;position:fixed;top:0;left:0;z-index:100;}
+#sidebar{display:none;flex-direction:column;width:220px;background:var(--surface);border-right:0.5px solid var(--border);min-height:100vh;padding:20px 0;position:fixed;top:0;left:0;z-index:100;}
 .sidebar-logo{font-family:var(--fft);font-size:20px;color:var(--text);padding:0 20px 24px;letter-spacing:1px;}
 .sidebar-logo em{color:var(--red);font-style:normal;}
 .snav-btn{display:flex;align-items:center;gap:12px;padding:11px 20px;font-size:13px;color:var(--text3);background:none;border:none;width:100%;text-align:left;letter-spacing:0.03em;transition:all 0.15s;cursor:pointer;}
@@ -59,6 +63,7 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .chip.active{background:var(--red);color:#f0ece0;border-color:var(--red);}
 
 .case-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px 16px 16px;}
+@media(min-width:1024px){.case-grid{grid-template-columns:1fr 1fr 1fr;}}
 .case-card{border-radius:4px;border:0.5px solid var(--border2);overflow:hidden;background:var(--surface);cursor:pointer;transition:border-color 0.15s;}
 .case-card:active{border-color:var(--red);}
 .cthumb{height:80px;display:flex;align-items:center;justify-content:center;font-size:28px;background:var(--surface2);}
@@ -198,6 +203,30 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .ai-txt{font-size:12px;color:#b090e0;line-height:1.7;}
 
 .empty-state{padding:40px 16px;text-align:center;color:var(--text3);font-size:13px;line-height:1.8;}
+/* LANDING PAGE */
+.land-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;background:radial-gradient(ellipse at 50% 0%,#2a0a0a 0%,var(--bg) 60%);}
+.land-logo{font-family:var(--fft);font-size:48px;color:var(--text);letter-spacing:2px;margin-bottom:8px;}
+.land-logo em{color:var(--red);font-style:normal;}
+.land-logo-dash{display:inline-block;width:28px;height:3px;background:var(--red);margin:0 8px 8px;border-radius:2px;vertical-align:middle;}
+.land-tag{font-size:13px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:32px;}
+.land-headline{font-family:var(--fft);font-size:28px;color:var(--text);line-height:1.4;margin-bottom:16px;max-width:360px;}
+.land-sub{font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:40px;max-width:320px;}
+.land-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px;}
+.land-btn-primary{padding:14px 24px;background:var(--red);color:#f0ece0;border:none;border-radius:4px;font-size:14px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:background 0.15s;}
+.land-btn-primary:hover{background:var(--red2);}
+.land-btn-secondary{padding:13px 24px;background:transparent;color:var(--text2);border:0.5px solid var(--border2);border-radius:4px;font-size:13px;cursor:pointer;letter-spacing:0.04em;transition:all 0.15s;}
+.land-btn-secondary:hover{border-color:var(--border);color:var(--text);}
+.land-features{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:40px 24px;border-top:0.5px solid var(--border);}
+.land-feat{background:var(--surface);border:0.5px solid var(--border2);border-radius:8px;padding:16px;}
+.land-feat-ico{font-size:24px;margin-bottom:10px;}
+.land-feat-title{font-size:13px;color:var(--text);margin-bottom:6px;font-family:var(--fft);letter-spacing:0.5px;}
+.land-feat-desc{font-size:11px;color:var(--text3);line-height:1.6;}
+.land-nav{position:fixed;top:0;left:0;right:0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,11,0.9);backdrop-filter:blur(8px);z-index:50;border-bottom:0.5px solid var(--border);}
+.land-nav-logo{font-family:var(--fft);font-size:18px;color:var(--text);letter-spacing:1px;cursor:pointer;}
+.land-nav-logo em{color:var(--red);font-style:normal;}
+.land-nav-btns{display:flex;gap:8px;}
+.land-nav-signin{font-size:12px;padding:7px 16px;border:0.5px solid var(--border2);border-radius:4px;background:transparent;color:var(--text2);cursor:pointer;letter-spacing:0.04em;}
+.land-nav-signup{font-size:12px;padding:7px 16px;border:none;border-radius:4px;background:var(--red);color:#f0ece0;cursor:pointer;letter-spacing:0.04em;font-weight:700;}
 .empty-icon{font-size:40px;margin-bottom:12px;}
 
 .verify-screen{padding:40px 24px;text-align:center;}
@@ -252,8 +281,58 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 </div>
 <div id="app">
 
+<!-- LANDING PAGE -->
+<div id="s-landing" class="screen active">
+  <nav class="land-nav">
+    <div class="land-nav-logo" onclick="go('landing')">crime<span style="display:inline-block;width:12px;height:2px;background:var(--red);margin:0 4px 2px;border-radius:1px;vertical-align:middle;"></span><em>thread</em></div>
+    <div class="land-nav-btns">
+      <button class="land-nav-signin" onclick="goAuth('login')">Sign in</button>
+      <button class="land-nav-signup" onclick="goAuth('signup')">Join free</button>
+    </div>
+  </nav>
+  <div class="land-hero">
+    <div style="margin-bottom:24px;">
+      <div class="land-logo">crime<span class="land-logo-dash"></span><em>thread</em></div>
+      <div class="land-tag">// true crime case board builder</div>
+    </div>
+    <div class="land-headline">Build case boards like a real detective</div>
+    <div class="land-sub">Pin evidence, build timelines, and investigate cold cases with a community of true crime researchers.</div>
+    <div class="land-btns">
+      <button class="land-btn-primary" onclick="goAuth('signup')">Start investigating — it's free</button>
+      <button class="land-btn-secondary" onclick="demoLogin()">Try the demo first</button>
+    </div>
+  </div>
+  <div class="land-features">
+    <div class="land-feat">
+      <div class="land-feat-ico">📌</div>
+      <div class="land-feat-title">Case Boards</div>
+      <div class="land-feat-desc">Build interactive boards with evidence, timelines, and persons of interest.</div>
+    </div>
+    <div class="land-feat">
+      <div class="land-feat-ico">📰</div>
+      <div class="land-feat-title">Live News Feed</div>
+      <div class="land-feat-desc">Follow breaking crime news and pin articles directly to your boards.</div>
+    </div>
+    <div class="land-feat">
+      <div class="land-feat-ico">🤖</div>
+      <div class="land-feat-title">AI Builder</div>
+      <div class="land-feat-desc">Auto-generate case boards from news articles with one click. Pro feature.</div>
+    </div>
+    <div class="land-feat">
+      <div class="land-feat-ico">🔒</div>
+      <div class="land-feat-title">Private Boards</div>
+      <div class="land-feat-desc">Keep your investigation private or share with collaborators. Pro feature.</div>
+    </div>
+  </div>
+  <div style="padding:32px 24px;text-align:center;border-top:0.5px solid var(--border);">
+    <div style="font-family:var(--fft);font-size:22px;color:var(--text);margin-bottom:12px;letter-spacing:1px;">Ready to investigate?</div>
+    <button class="land-btn-primary" onclick="goAuth('signup')" style="width:100%;max-width:280px;">Create your free account</button>
+    <p style="font-size:11px;color:var(--text3);margin-top:16px;line-height:1.7;">© 2026 Crimethread™. All rights reserved.<br>"Crimethread™" is a trademark pending registration with the USPTO.</p>
+  </div>
+</div>
+
 <!-- AUTH -->
-<div id="s-auth" class="screen active">
+<div id="s-auth" class="screen">
   <div class="auth-wrap">
     <div class="auth-logo">crime<span style="display:inline-block;width:14px;height:2px;background:var(--red);margin:0 5px 4px;border-radius:1px;vertical-align:middle;"></span><em>thread</em></div>
     <div class="auth-tag">// true crime case board builder</div>
@@ -311,7 +390,7 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 <!-- EXPLORE -->
 <div id="s-explore" class="screen">
   <div class="topbar">
-    <div class="logo">crime<span class="logo-dash"></span><em>thread</em></div>
+    <div class="logo" onclick="go('landing')" style="cursor:pointer;">crime<span class="logo-dash"></span><em>thread</em></div>
     <div class="tright"><button class="ibtn" onclick="go('notifs')">🔔</button><button class="ibtn" onclick="go('profile')">👤</button></div>
   </div>
   <div class="filter-row">
@@ -669,6 +748,15 @@ function go(screen) {
   if (screen === 'profile' && state.user) { updateProfile(state.user); loadProfileStats(); }
 }
 
+function goAuth(tab) {
+  go('auth');
+  setTimeout(() => {
+    const tabs = document.querySelectorAll('.atab');
+    if (tab === 'signup') authTab('signup', tabs[1]);
+    else authTab('login', tabs[0]);
+  }, 50);
+}
+
 function goBack() { go(state.prevScreen || 'explore'); }
 
 function showTab(name, el) {
@@ -998,6 +1086,7 @@ sb.auth.onAuthStateChange((event, session) => {
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
   if (session?.user) loginSuccess(session.user);
+  // else stays on landing page
 })();
 </script>
 </body>
