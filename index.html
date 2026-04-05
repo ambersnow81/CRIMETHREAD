@@ -412,19 +412,20 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 
 <!-- NEWS -->
 <div id="s-news" class="screen">
-  <div class="topbar"><div class="logo">crime<span class="logo-dash"></span><em>thread</em></div><div class="tright"><button class="ibtn" onclick="go('profile')">👤</button></div></div>
+  <div class="topbar"><div class="logo" onclick="go('landing')" style="cursor:pointer;">crime<span class="logo-dash"></span><em>thread</em></div><div class="tright"><button class="ibtn" onclick="go('profile')">👤</button></div></div>
   <div class="filter-row">
-    <button class="chip active" onclick="fc(this)">All</button>
-    <button class="chip" onclick="fc(this)">National</button>
-    <button class="chip" onclick="fc(this)">Local</button>
-    <button class="chip" onclick="fc(this)">Court</button>
-    <button class="chip" onclick="fc(this)">Cold cases</button>
+    <button class="chip active" onclick="filterNews('all',this)">All</button>
+    <button class="chip" onclick="filterNews('crime',this)">Crime</button>
+    <button class="chip" onclick="filterNews('court',this)">Court</button>
+    <button class="chip" onclick="filterNews('missing',this)">Missing</button>
+    <button class="chip" onclick="filterNews('cold',this)">Cold cases</button>
+    <button class="chip" onclick="filterBySource('Nancy Grace',this)">🎙️ Nancy Grace</button>
+    <button class="chip" onclick="filterBySource('Law & Crime',this)">⚖️ Law & Crime</button>
+    <button class="chip" onclick="filterBySource('Oxygen',this)">📺 Oxygen</button>
   </div>
-  <div class="ai-ban"><div style="font-size:16px;flex-shrink:0;">🤖</div><div class="ai-txt"><strong style="color:#c0a0f0;">3 new AI case boards</strong> generated from today's news.</div></div>
-  <div class="slabel">// today — april 3, 2026</div>
-  <div class="ncard"><div class="ntop"><div class="nico2">🔎</div><div><div class="ntitle">Police reopen 2019 cold case after new DNA evidence identified</div><div class="nmeta"><span class="nsrc">AP News</span><span class="tag t-nat">National</span></div></div></div><div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary">View board</button></div></div>
-  <div class="ncard"><div class="ntop"><div class="nico2">⚖️</div><div><div class="ntitle">Trial begins for former CFO accused of $40M embezzlement scheme</div><div class="nmeta"><span class="nsrc">Reuters</span><span class="tag t-court">Court</span></div></div></div><div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn" onclick="this.textContent='✓ Created';this.style.color='#60a060';">+ New board</button></div></div>
-  <div class="ncard"><div class="ntop"><div class="nico2">📁</div><div><div class="ntitle">NamUs flags 14 unidentified remains matching 1990s missing persons reports</div><div class="nmeta"><span class="nsrc">NamUs / DOJ</span><span class="tag t-cold">Cold case</span></div></div></div><div class="nacts"><button class="abtn" onclick="pinNews(this)">📌 Pin</button><button class="abtn primary">View board</button></div></div>
+  <div id="news-feed-list">
+    <div class="empty-state"><div class="empty-icon">📰</div>Loading latest crime news...</div>
+  </div>
   <div class="footer"><p>© 2026 Crimethread™. All rights reserved.</p></div>
 </div>
 
@@ -746,6 +747,7 @@ function go(screen) {
   if (sb) sb.classList.add('active');
   window.scrollTo(0, 0);
   if (screen === 'mycases') loadMyCases();
+  if (screen === 'news') loadNewsFeed();
   if (screen === 'profile' && state.user) { updateProfile(state.user); loadProfileStats(); }
 }
 
@@ -1023,6 +1025,142 @@ async function loadProfileStats() {
   document.getElementById('prof-cases').textContent = count || 0;
   const { count: evCount } = await sb.from('evidence_cards').select('*', { count: 'exact', head: true }).eq('user_id', state.user.id);
   document.getElementById('prof-evidence').textContent = evCount || 0;
+}
+
+// ── News Feed ──
+const NEWS_SOURCES = [
+  { url: 'https://feeds.npr.org/1057/rss.xml', name: 'NPR Crime', tag: 'crime', tagClass: 't-nat', icon: '🔎' },
+  { url: 'https://www.theguardian.com/us-news/crime/rss', name: 'The Guardian', tag: 'crime', tagClass: 't-nat', icon: '🔎' },
+  { url: 'https://abcnews.go.com/US/rss', name: 'ABC News', tag: 'crime', tagClass: 't-nat', icon: '📰' },
+  { url: 'https://feeds.nbcnews.com/nbcnews/public/crime-courts-justice', name: 'NBC News', tag: 'court', tagClass: 't-court', icon: '⚖️' },
+  { url: 'https://rss.app/feeds/nancy-grace.xml', name: 'Nancy Grace', tag: 'crime', tagClass: 't-nat', icon: '🎙️' },
+  { url: 'https://feeds.megaphone.fm/nancygrace', name: 'Nancy Grace Podcast', tag: 'crime', tagClass: 't-nat', icon: '🎙️' },
+  { url: 'https://crimeonline.com/feed/', name: 'Crime Online', tag: 'crime', tagClass: 't-nat', icon: '🔎' },
+  { url: 'https://www.oxygen.com/rss', name: 'Oxygen', tag: 'cold', tagClass: 't-cold', icon: '📺' },
+  { url: 'https://www.investigationdiscovery.com/rss', name: 'Investigation Discovery', tag: 'cold', tagClass: 't-cold', icon: '📺' },
+  { url: 'https://www.courthousenews.com/feed/', name: 'Courthouse News', tag: 'court', tagClass: 't-court', icon: '⚖️' },
+  { url: 'https://lawandcrime.com/feed/', name: 'Law & Crime', tag: 'court', tagClass: 't-court', icon: '⚖️' },
+  { url: 'https://crimewatchdaily.com/feed/', name: 'Crime Watch Daily', tag: 'crime', tagClass: 't-nat', icon: '🔎' }
+];
+
+let allNewsItems = [];
+let currentFilter = 'all';
+
+async function loadNewsFeed() {
+  const list = document.getElementById('news-feed-list');
+  list.innerHTML = '<div class="empty-state"><div class="empty-icon">📰</div>Loading latest crime news...</div>';
+  
+  const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
+  allNewsItems = [];
+  
+  const promises = NEWS_SOURCES.map(async (source) => {
+    try {
+      const res = await fetch(`${RSS2JSON}${encodeURIComponent(source.url)}&count=10`);
+      const data = await res.json();
+      if (data.status === 'ok' && data.items) {
+        return data.items.map(item => ({
+          title: item.title,
+          link: item.link,
+          pubDate: item.pubDate,
+          source: source.name,
+          tag: source.tag,
+          tagClass: source.tagClass,
+          icon: source.icon,
+          description: item.description?.replace(/<[^>]*>/g, '').slice(0, 120) + '...'
+        }));
+      }
+    } catch(e) { return []; }
+    return [];
+  });
+
+  const results = await Promise.allSettled(promises);
+  results.forEach(r => { if (r.status === 'fulfilled' && r.value) allNewsItems.push(...r.value); });
+
+  // Sort by date
+  allNewsItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+  if (allNewsItems.length === 0) {
+    // Fallback to curated news if feeds fail
+    allNewsItems = getFallbackNews();
+  }
+
+  renderNews(allNewsItems);
+}
+
+function getFallbackNews() {
+  return [
+    { title: 'Cold case breakthrough: DNA links suspect to 1998 murder', link: 'https://apnews.com', pubDate: new Date().toISOString(), source: 'AP News', tag: 'cold', tagClass: 't-cold', icon: '🔎', description: 'Investigators announced a major breakthrough in a decades-old cold case...' },
+    { title: 'Federal court upholds conviction in high-profile fraud case', link: 'https://reuters.com', pubDate: new Date().toISOString(), source: 'Reuters', tag: 'court', tagClass: 't-court', icon: '⚖️', description: 'A federal appeals court has upheld the conviction of a former executive...' },
+    { title: 'Missing persons database updated with 500 new cases', link: 'https://namus.nij.ojp.gov', pubDate: new Date().toISOString(), source: 'NamUs', tag: 'missing', tagClass: 't-cold', icon: '📁', description: 'The National Missing and Unidentified Persons System has added new cases...' },
+    { title: 'Jury selection begins in high-profile murder trial', link: 'https://abcnews.go.com', pubDate: new Date().toISOString(), source: 'ABC News', tag: 'court', tagClass: 't-court', icon: '⚖️', description: 'Jury selection began Monday in the murder trial that has gripped the nation...' },
+    { title: 'New evidence emerges in decade-old disappearance case', link: 'https://nbcnews.com', pubDate: new Date().toISOString(), source: 'NBC News', tag: 'cold', tagClass: 't-cold', icon: '🔎', description: 'Investigators say new forensic evidence has emerged in the case...' },
+    { title: 'FBI releases updated most wanted list with new fugitives', link: 'https://fbi.gov', pubDate: new Date().toISOString(), source: 'FBI', tag: 'crime', tagClass: 't-nat', icon: '🔎', description: 'The FBI has updated its most wanted list, adding several new fugitives...' }
+  ];
+}
+
+function renderNews(items) {
+  const list = document.getElementById('news-feed-list');
+  if (!items || items.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📰</div>No news found. Try another filter.</div>';
+    return;
+  }
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  list.innerHTML = `<div class="slabel">// ${today}</div>` + items.map((item, i) => `
+    <div class="ncard" data-tag="${item.tag}">
+      <div class="ntop">
+        <div class="nico2">${item.icon}</div>
+        <div>
+          <div class="ntitle">${item.title}</div>
+          <div class="nmeta">
+            <span class="nsrc">${item.source}</span>
+            <span class="tag ${item.tagClass}">${item.tag}</span>
+            <span class="nsrc">${timeAgo(item.pubDate)}</span>
+          </div>
+        </div>
+      </div>
+      <div class="nacts">
+        <button class="abtn" onclick="pinNews(this)">📌 Pin</button>
+        <a href="${item.link}" target="_blank" style="text-decoration:none;"><button class="abtn primary">Read →</button></a>
+        <button class="abtn" onclick="createBoardFromNews('${item.title.replace(/'/g,"\\'")}')">+ Board</button>
+      </div>
+    </div>`).join('') + '<div class="footer"><p>© 2026 Crimethread™. All rights reserved.</p></div>';
+}
+
+function filterBySource(source, el) {
+  currentFilter = source;
+  el.closest('.filter-row').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderNews(allNewsItems.filter(item => item.source.includes(source)));
+}
+
+function filterNews(filter, el) {
+  currentFilter = filter;
+  el.closest('.filter-row').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  if (filter === 'all') {
+    renderNews(allNewsItems);
+  } else {
+    renderNews(allNewsItems.filter(item => item.tag === filter));
+  }
+}
+
+function timeAgo(dateStr) {
+  if (!dateStr) return '';
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  const hrs = Math.floor(mins / 60);
+  const days = Math.floor(hrs / 24);
+  if (days > 0) return `${days}d ago`;
+  if (hrs > 0) return `${hrs}h ago`;
+  if (mins > 0) return `${mins}m ago`;
+  return 'just now';
+}
+
+function createBoardFromNews(title) {
+  if (!state.user || state.user.id === 'demo') { showToast('Sign in to create case boards.', 'error'); return; }
+  document.getElementById('new-name').value = title;
+  go('new');
+  showToast('News article ready — fill in the details!', 'success');
 }
 
 // ── Stripe Payments ──
