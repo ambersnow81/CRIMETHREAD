@@ -22,7 +22,21 @@
 html,body{height:100%;background:var(--bg);font-family:var(--ff);color:var(--text);overflow-x:hidden;}
 button{cursor:pointer;font-family:var(--ff);}
 input,select,textarea{font-family:var(--ff);color:var(--text);}
-#app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);border-left:0.5px solid var(--border);border-right:0.5px solid var(--border);}
+#app{max-width:100%;margin:0 auto;min-height:100vh;background:var(--bg);}
+@media(min-width:600px){#app{max-width:480px;border-left:0.5px solid var(--border);border-right:0.5px solid var(--border);}}
+@media(min-width:1024px){
+  #app{max-width:100%;display:grid;grid-template-columns:240px 1fr;grid-template-rows:auto;}
+  .bnav{display:none !important;}
+  #sidebar{display:flex !important;}
+  .screen.active{grid-column:2;}
+}
+#sidebar{display:none;flex-direction:column;width:240px;background:var(--surface);border-right:0.5px solid var(--border);min-height:100vh;padding:20px 0;position:fixed;top:0;left:0;z-index:100;}
+.sidebar-logo{font-family:var(--fft);font-size:20px;color:var(--text);padding:0 20px 24px;letter-spacing:1px;}
+.sidebar-logo em{color:var(--red);font-style:normal;}
+.snav-btn{display:flex;align-items:center;gap:12px;padding:11px 20px;font-size:13px;color:var(--text3);background:none;border:none;width:100%;text-align:left;letter-spacing:0.03em;transition:all 0.15s;cursor:pointer;}
+.snav-btn:hover{color:var(--text);background:var(--surface2);}
+.snav-btn.active{color:var(--red);}
+.snav-ico{font-size:16px;width:20px;text-align:center;}
 .screen{display:none;min-height:100vh;padding-bottom:72px;}
 .screen.active{display:block;}
 
@@ -222,6 +236,16 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 </style>
 </head>
 <body>
+<div id="sidebar">
+  <div class="sidebar-logo">crime<span style="display:inline-block;width:12px;height:2px;background:var(--red);margin:0 4px 3px;border-radius:1px;vertical-align:middle;"></span><em>thread</em></div>
+  <button class="snav-btn active" id="snav-explore" onclick="go('explore')"><span class="snav-ico">🔎</span>Explore</button>
+  <button class="snav-btn" id="snav-news" onclick="go('news')"><span class="snav-ico">📰</span>News</button>
+  <button class="snav-btn" id="snav-new" onclick="go('new')"><span class="snav-ico">＋</span>New Case</button>
+  <button class="snav-btn" id="snav-mycases" onclick="go('mycases')"><span class="snav-ico">📁</span>My Cases</button>
+  <button class="snav-btn" id="snav-pricing" onclick="go('pricing')"><span class="snav-ico">🔴</span>Upgrade to Pro</button>
+  <div style="flex:1;"></div>
+  <button class="snav-btn" id="snav-profile" onclick="go('profile')"><span class="snav-ico">👤</span>Profile</button>
+</div>
 <div id="app">
 
 <!-- AUTH -->
@@ -630,9 +654,12 @@ function go(screen) {
   if (prev && !['s-auth','s-verify'].includes(prev.id)) state.prevScreen = prev.id.replace('s-','');
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nbtn').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.snav-btn').forEach(n => n.classList.remove('active'));
   document.getElementById('s-' + screen).classList.add('active');
   const nb = document.getElementById('nav-' + screen);
   if (nb) nb.classList.add('active');
+  const sb = document.getElementById('snav-' + screen);
+  if (sb) sb.classList.add('active');
   window.scrollTo(0, 0);
   if (screen === 'mycases') loadMyCases();
   if (screen === 'profile' && state.user) { updateProfile(state.user); loadProfileStats(); }
