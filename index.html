@@ -580,6 +580,21 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
   <button class="nbtn" id="nav-profile" onclick="go('profile')"><span class="nico">👤</span>Profile</button>
 </div>
 
+<!-- PIN TO BOARD MODAL -->
+<div id="pin-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;align-items:flex-end;justify-content:center;">
+  <div style="background:var(--surface);border-radius:12px 12px 0 0;width:100%;max-width:480px;border-top:0.5px solid var(--border2);position:relative;max-height:80vh;display:flex;flex-direction:column;">
+    <div style="padding:20px 20px 12px;border-bottom:0.5px solid var(--border);flex-shrink:0;">
+      <button onclick="closePinModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--text3);cursor:pointer;">✕</button>
+      <div style="font-family:var(--fft);font-size:18px;color:var(--text);margin-bottom:8px;">Pin to case board</div>
+      <div id="pin-article-title" style="font-size:12px;color:var(--text3);line-height:1.5;padding-right:24px;"></div>
+    </div>
+    <div id="pin-boards-list" style="overflow-y:auto;flex:1;"></div>
+    <div style="padding:12px 16px;border-top:0.5px solid var(--border);flex-shrink:0;">
+      <button onclick="go('new');closePinModal()" class="btno" style="margin:0;">+ Create new case board</button>
+    </div>
+  </div>
+</div>
+
 <!-- ADD EVIDENCE MODAL -->
 <div id="ev-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;align-items:flex-end;justify-content:center;">
   <div style="background:var(--surface);border-radius:12px 12px 0 0;padding:24px;width:100%;max-width:480px;border-top:0.5px solid var(--border2);position:relative;">
@@ -786,8 +801,59 @@ function fc(el) {
 }
 
 function pinNews(btn) {
-  btn.classList.toggle('pinned');
-  btn.textContent = btn.classList.contains('pinned') ? '📌 Pinned' : '📌 Pin';
+  if (!state.user || state.user.id === 'demo') {
+    showToast('Sign in to pin articles to your case boards.', 'error');
+    return;
+  }
+  // Get the article title from the card
+  const card = btn.closest('.ncard');
+  const title = card.querySelector('.ntitle').textContent;
+  const link = card.querySelector('a')?.href || '';
+  showPinModal(title, link, btn);
+}
+
+function showPinModal(title, link, btn) {
+  state.pendingPin = { title, link, btn };
+  document.getElementById('pin-article-title').textContent = title;
+  loadBoardsForPin();
+  document.getElementById('pin-overlay').style.display = 'flex';
+}
+
+async function loadBoardsForPin() {
+  const list = document.getElementById('pin-boards-list');
+  list.innerHTML = '<div style="padding:12px;color:var(--text3);font-size:12px;">Loading your boards...</div>';
+  if (!state.user || state.user.id === 'demo') return;
+  const { data } = await sb.from('case_boards').select('id,title,icon').eq('user_id', state.user.id).order('created_at', { ascending: false });
+  if (!data || data.length === 0) {
+    list.innerHTML = `<div style="padding:16px;text-align:center;color:var(--text3);font-size:12px;">No case boards yet.<br><button onclick="go('new');closePinModal()" style="color:var(--red);background:none;border:none;cursor:pointer;font-family:var(--ff);margin-top:8px;">Create one first →</button></div>`;
+    return;
+  }
+  list.innerHTML = data.map(board => `
+    <div onclick="pinToBoard('${board.id}','${board.title.replace(/'/g,"\\'")}','${board.icon || '📁'}')" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background 0.1s;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='transparent'">
+      <div style="width:36px;height:36px;border-radius:4px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${board.icon || '📁'}</div>
+      <div style="font-size:13px;color:var(--text);">${board.title}</div>
+    </div>`).join('');
+}
+
+async function pinToBoard(boardId, boardTitle, boardIcon) {
+  const { title, link, btn } = state.pendingPin;
+  const { error } = await sb.from('evidence_cards').insert({
+    board_id: boardId,
+    user_id: state.user.id,
+    type: 'news',
+    title: title,
+    source_url: link || null
+  });
+  closePinModal();
+  if (error) { showToast('Error pinning article.', 'error'); return; }
+  btn.classList.add('pinned');
+  btn.textContent = '📌 Pinned';
+  showToast(`Pinned to "${boardTitle}"!`, 'success');
+}
+
+function closePinModal() {
+  document.getElementById('pin-overlay').style.display = 'none';
+  state.pendingPin = null;
 }
 
 // ── Case Boards ──
