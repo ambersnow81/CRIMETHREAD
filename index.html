@@ -84,7 +84,8 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .btnp:hover{background:var(--red2);}
 .btno{width:100%;padding:11px;background:transparent;color:var(--text2);border:0.5px solid var(--border2);border-radius:4px;font-size:13px;letter-spacing:0.04em;margin-top:8px;transition:all 0.15s;}
 
-.auth-wrap{padding:40px 24px 24px;}
+.auth-wrap{width:100%;max-width:380px;background:var(--surface);border:0.5px solid var(--border2);border-radius:8px;padding:36px 32px;}
+@media(max-width:600px){.auth-wrap{background:transparent;border:none;padding:20px 24px;max-width:100%;}}
 .auth-logo{font-family:var(--fft);font-size:34px;color:var(--text);text-align:center;margin-bottom:6px;letter-spacing:1px;}
 .auth-logo em{color:var(--red);font-style:normal;}
 .auth-tag{font-size:12px;color:var(--text3);text-align:center;letter-spacing:0.05em;margin-bottom:32px;}
@@ -100,10 +101,6 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:0.5px;background:var(--border2);}
 .loading-spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(240,236,224,0.3);border-top-color:#f0ece0;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-@media(min-width:1024px){
-  #s-auth{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg);}
-  .auth-wrap{width:100%;max-width:400px;background:var(--surface);border:0.5px solid var(--border2);border-radius:8px;padding:40px 36px;}
-}
 
 .prof-hdr{padding:28px 16px 20px;text-align:center;border-bottom:0.5px solid var(--border);}
 .avatar{width:68px;height:68px;border-radius:50%;background:var(--red-dim);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;}
@@ -333,12 +330,13 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 
 <!-- AUTH -->
 <div id="s-auth" class="screen">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 24px;background:var(--bg);">
   <div class="auth-wrap">
     <div class="auth-logo">crime<span style="display:inline-block;width:14px;height:2px;background:var(--red);margin:0 5px 4px;border-radius:1px;vertical-align:middle;"></span><em>thread</em></div>
     <div class="auth-tag">// true crime case board builder</div>
     <div class="auth-tabs">
-      <button class="atab active" onclick="authTab('login',this)">Sign in</button>
-      <button class="atab" onclick="authTab('signup',this)">Create account</button>
+      <button class="atab active" id="atab-login" onclick="authTab('login',this)">Sign in</button>
+      <button class="atab" id="atab-signup" onclick="authTab('signup',this)">Create account</button>
     </div>
     <div id="auth-err" class="auth-err"></div>
     <div id="auth-success" class="auth-success"></div>
@@ -367,12 +365,13 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
       <label class="flbl">Email address</label>
       <input class="finput" type="email" id="f-email" placeholder="your@email.com">
       <button class="btnp" onclick="doForgot()">Send reset link</button>
-      <button class="btno" onclick="authTab('login',document.querySelector('.atab'))">Back to sign in</button>
+      <button class="btno" onclick="authTab('login',document.getElementById('atab-login'))">Back to sign in</button>
     </div>
     <div style="margin-top:24px;text-align:center;font-size:11px;color:var(--text3);line-height:1.7;">
       By continuing you agree to our <a href="#" style="color:var(--text2);">Terms of Service</a> and <a href="#" style="color:var(--text2);">Privacy Policy</a><br>
       <span style="font-size:10px;margin-top:4px;display:block;">© 2026 Crimethread™. All rights reserved.</span>
     </div>
+  </div>
   </div>
 </div>
 
