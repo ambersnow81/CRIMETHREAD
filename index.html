@@ -714,6 +714,7 @@ function loginSuccess(user) {
   state.user = user;
   updateProfile(user);
   document.getElementById('bnav').style.display = 'flex';
+  document.getElementById('sidebar').style.display = 'flex';
   go('explore');
 }
 
@@ -721,8 +722,9 @@ async function doLogout() {
   await sb.auth.signOut();
   state.user = null;
   document.getElementById('bnav').style.display = 'none';
+  document.getElementById('sidebar').style.display = 'none';
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('s-auth').classList.add('active');
+  document.getElementById('s-landing').classList.add('active');
 }
 
 function updateProfile(user) {
