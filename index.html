@@ -266,8 +266,8 @@ input,select,textarea{font-family:var(--ff);color:var(--text);}
 </style>
 </head>
 <body>
-<div id="sidebar">
-  <div class="sidebar-logo">crime<span style="display:inline-block;width:12px;height:2px;background:var(--red);margin:0 4px 3px;border-radius:1px;vertical-align:middle;"></span><em>thread</em></div>
+<div id="sidebar" style="display:none;">
+  <div class="sidebar-logo" onclick="go('landing')" style="cursor:pointer;">crime<span style="display:inline-block;width:12px;height:2px;background:var(--red);margin:0 4px 3px;border-radius:1px;vertical-align:middle;"></span><em>thread</em></div>
   <button class="snav-btn active" id="snav-explore" onclick="go('explore')"><span class="snav-ico">🔎</span>Explore</button>
   <button class="snav-btn" id="snav-news" onclick="go('news')"><span class="snav-ico">📰</span>News</button>
   <button class="snav-btn" id="snav-new" onclick="go('new')"><span class="snav-ico">＋</span>New Case</button>
